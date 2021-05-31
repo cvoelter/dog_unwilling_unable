@@ -1,0 +1,145 @@
+subjectID,block,condition,CDL name,gender,date of birth,breed,test date,age,sound problem,comments dogs
+dog_01,1,teasing,Charly5,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,
+dog_01,2,clumsy,Charly5,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,sausage rolled out at the side fence
+dog_01,3,blocked,Charly5,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,barrier pulled out
+dog_02,1,clumsy,Blue3,F,03/01/2013,Labrador Retriever,04/05/2021,100,no,
+dog_02,2,teasing,Blue3,F,03/01/2013,Labrador Retriever,04/05/2021,100,yes,
+dog_02,3,blocked,Blue3,F,03/01/2013,Labrador Retriever,04/05/2021,100,yes,
+dog_03,1,blocked,Josi,F,01/01/2018,Mix,12/05/2021,40,no,
+dog_03,2,teasing,Josi,F,01/01/2018,Mix,12/05/2021,40,no,
+dog_03,3,clumsy,Josi,F,01/01/2018,Mix,12/05/2021,40,no,
+dog_04,1,teasing,Jurij,M,14/01/2016,Mix,05/05/2021,63,yes,
+dog_04,2,blocked,Jurij,M,14/01/2016,Mix,05/05/2021,63,yes,
+dog_04,3,clumsy,Jurij,M,14/01/2016,Mix,05/05/2021,63,no,took in 1st trial
+dog_05,1,clumsy,Ava,F,20/03/2019,Irish Red Setter,04/05/2021,25,yes,
+dog_05,2,blocked,Ava,F,20/03/2019,Irish Red Setter,04/05/2021,25,yes,
+dog_05,3,teasing,Ava,F,20/03/2019,Irish Red Setter,04/05/2021,25,no,
+dog_06,1,blocked,Roxy5,F,22/04/2015,Irish Red Setter,04/05/2021,72,at 3rd trial,
+dog_06,2,clumsy,Roxy5,F,22/04/2015,Irish Red Setter,04/05/2021,72,yes,
+dog_06,3,teasing,Roxy5,F,22/04/2015,Irish Red Setter,04/05/2021,72,no,
+dog_07,1,teasing,Flocke2,F,12/11/2008,Border Collie,06/05/2021,149,no,barking in 2nd and 3rd trial
+dog_07,2,clumsy,Flocke2,F,12/11/2008,Border Collie,06/05/2021,149,no,
+dog_07,3,blocked,Flocke2,F,12/11/2008,Border Collie,06/05/2021,149,no,"barking in 1st, 3rd and 4th trial"
+dog_08,1,clumsy,Lottie2,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,
+dog_08,2,teasing,Lottie2,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,
+dog_08,3,blocked,Lottie2,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,
+dog_09,1,blocked,Arthur1,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,
+dog_09,2,teasing,Arthur1,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,
+dog_09,3,clumsy,Arthur1,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,
+dog_10,1,teasing,Lieserl,F,07/04/2015,Border Collie,06/05/2021,72,no,
+dog_10,2,blocked,Lieserl,F,07/04/2015,Border Collie,06/05/2021,72,no,
+dog_10,3,clumsy,Lieserl,F,07/04/2015,Border Collie,06/05/2021,72,no,
+dog_11,1,clumsy,Abby2,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,took sausage in 1st trial
+dog_11,2,blocked,Abby2,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,
+dog_11,3,teasing,Abby2,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,
+dog_12,1,blocked,Kylie,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,
+dog_12,2,clumsy,Kylie,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,
+dog_12,3,teasing,Kylie,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,
+dog_13,1,teasing,Aoife,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,no sound whole video. Barking and beeping in 2nd trial
+dog_13,2,clumsy,Aoife,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,no sound whole video
+dog_13,3,blocked,Aoife,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,no sound whole video
+dog_14,1,clumsy,Kobe,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,
+dog_14,2,teasing,Kobe,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,
+dog_14,3,blocked,Kobe,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,
+dog_15,1,blocked,Lenny4,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,yes,blowing air during 2nd trail
+dog_15,2,teasing,Lenny4,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,yes,
+dog_15,3,clumsy,Lenny4,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,at 3rd trial,
+dog_16,1,teasing,Flamme,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,no sound whole video. In 3rd and 4th trial barking and in 4th trial beeping.
+dog_16,2,blocked,Flamme,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,no sound whole video
+dog_16,3,clumsy,Flamme,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,no sound whole video
+dog_17,1,clumsy,Leia2,F,15/02/2014,Mix,19/05/2021,87,yes,no sound whole video
+dog_17,2,blocked,Leia2,F,15/02/2014,Mix,19/05/2021,87,yes,no sound whole video
+dog_17,3,teasing,Leia2,F,15/02/2014,Mix,19/05/2021,87,yes,no sound whole video
+dog_18,1,blocked,Gandalf,M,14/07/2019,Andalusian Hound,11/05/2021,21,yes during 3rd trial,
+dog_18,2,clumsy,Gandalf,M,14/07/2019,Andalusian Hound,11/05/2021,21,yes during 4th trial,took sausage in 1st trial
+dog_18,3,teasing,Gandalf,M,14/07/2019,Andalusian Hound,11/05/2021,21,no,sneezed in 3rd trial after vocaliazing (barking in 3rd trial)
+dog_19,1,teasing,Ultimo,M,29/10/2009,Border Collie,11/05/2021,138,no,
+dog_19,2,clumsy,Ultimo,M,29/10/2009,Border Collie,11/05/2021,138,no,barking in background from other dogs in the lab
+dog_19,3,blocked,Ultimo,M,29/10/2009,Border Collie,11/05/2021,138,"yes, 1st 3rd 4th trial",
+dog_20,1,clumsy,Allegro2,M,17/05/2013,Border Collie,13/05/2021,95,no,
+dog_20,2,teasing,Allegro2,M,17/05/2013,Border Collie,13/05/2021,95,no,
+dog_20,3,blocked,Allegro2,M,17/05/2013,Border Collie,13/05/2021,95,no,
+dog_21,1,blocked,Destino,M,21/01/2020,Border Collie,13/05/2021,15,no,breathes heavily 
+dog_21,2,teasing,Destino,M,21/01/2020,Border Collie,13/05/2021,15,no,sound echoes a bit. Beeping in all 4 trials.
+dog_21,3,clumsy,Destino,M,21/01/2020,Border Collie,13/05/2021,15,no,sound echoes a bit
+dog_22,1,teasing,Nikki,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,sound echoes a bit
+dog_22,2,blocked,Nikki,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,
+dog_22,3,clumsy,Nikki,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,
+dog_23,1,clumsy,Luna31,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,"took in 3rd trial sausage in first clumsy state, started again (so 40 second in total but score only 30 seconds)"
+dog_23,2,blocked,Luna31,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,
+dog_23,3,teasing,Luna31,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,
+dog_24,1,blocked,Juna,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,
+dog_24,2,clumsy,Juna,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,
+dog_24,3,teasing,Juna,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,
+dog_25,1,teasing,Pebbles3,F,05/01/2019,French Bulldog,07/05/2021,28,no,
+dog_25,2,clumsy,Pebbles3,F,05/01/2019,French Bulldog,07/05/2021,28,no,
+dog_25,3,blocked,Pebbles3,F,05/01/2019,French Bulldog,07/05/2021,28,no,
+dog_26,1,clumsy,Lorin,M,14/01/2016,Mix,17/05/2021,64,no,dog barking from other room. Had more sausage then the rest of the tested dogs. Was first scared to approach the window/barrier.
+dog_26,2,teasing,Lorin,M,14/01/2016,Mix,17/05/2021,64,no,dog barking from other room
+dog_26,3,blocked,Lorin,M,14/01/2016,Mix,17/05/2021,64,no,dog barking from other room
+dog_27,1,blocked,Loki5,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,no sound whole video. 3rd trial heard other dog beeping
+dog_27,2,teasing,Loki5,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,no sound whole video. Breathes heavily in all 4 trials.
+dog_27,3,clumsy,Loki5,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,no sound whole video
+dog_28,1,teasing,Ruby8,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,dog barkng from other room
+dog_28,2,blocked,Ruby8,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,
+dog_28,3,clumsy,Ruby8,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,
+dog_29,1,clumsy,Jax,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,no,not clear to hear if he was beeping otherwise really soft
+dog_29,2,blocked,Jax,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,yes,"difficult to hear if he is beeping, 3rd, 4th trial other dog in other room barked as well"
+dog_29,3,teasing,Jax,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,no,"2nd, 3rd, 4th trial other dog in other room barked as well"
+dog_30,1,blocked,Manni2,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,no sound whole video. Drinking at the end of 3rd trial.
+dog_30,2,clumsy,Manni2,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,no sound whole video.
+dog_30,3,teasing,Manni2,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,no sound whole video. 2nd trial beeping.
+dog_31,1,teasing,Olivy,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,no sound whole video
+dog_31,2,clumsy,Olivy,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,no sound whole video
+dog_31,3,blocked,Olivy,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,no sound whole video
+dog_32,1,clumsy,Fiby2,F,04/12/2014,French Bulldog,18/05/2021,77,yes,no sound whole video (peter said he fixed it)
+dog_32,2,teasing,Fiby2,F,04/12/2014,French Bulldog,18/05/2021,77,yes,no sound whole video (peter said he fixed it)
+dog_32,3,blocked,Fiby2,F,04/12/2014,French Bulldog,18/05/2021,77,yes,no sound whole video (peter said he fixed it)
+dog_33,1,blocked,Duana,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,no sound whole video
+dog_33,2,teasing,Duana,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,no sound whole video
+dog_33,3,clumsy,Duana,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,no sound whole video
+dog_34,1,teasing,Mika2,F,07/01/2014,Whippet ,19/05/2021,88,yes,no sound whole video (peter said he fixed it)
+dog_34,2,blocked,Mika2,F,07/01/2014,Whippet ,19/05/2021,88,yes,no sound whole video (peter said he fixed it)
+dog_34,3,clumsy,Mika2,F,07/01/2014,Whippet ,19/05/2021,88,yes,no sound whole video (peter said he fixed it). Beeping in 4th and jumping during each test trial on the lap of the owner (as notes during testing).
+dog_35,1,clumsy,Thaya,F,17/12/2010,Whippet,19/05/2021,125,yes,no sound whole video (peter said he fixed it). Beeping in 4th (as notes during testing).
+dog_35,2,blocked,Thaya,F,17/12/2010,Whippet,19/05/2021,125,yes,no sound whole video (peter said he fixed it)
+dog_35,3,teasing,Thaya,F,17/12/2010,Whippet,19/05/2021,125,yes,no sound whole video (peter said he fixed it). Growling in 1st and 3rd trial and beeping in 4th (as notes during testing).
+dog_36,1,blocked,Cappuccina,F,11/11/2014,Border Collie,21/05/2021,78,no,went drinking during 3rd trial. In 4th trial pawing and lateral at same time. 
+dog_36,2,clumsy,Cappuccina,F,11/11/2014,Border Collie,21/05/2021,78,no,
+dog_36,3,teasing,Cappuccina,F,11/11/2014,Border Collie,21/05/2021,78,no,
+dog_37,1,teasing,Gipsy2,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,
+dog_37,2,clumsy,Gipsy2,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,
+dog_37,3,blocked,Gipsy2,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,beeping in 3rd and 4th trial
+dog_38,1,clumsy,Io,F,07/01/2014,Whippet ,19/05/2021,88,yes,no sound whole video (peter said he fixed it). Beeping in 4th and jumping during each test trial on the lap of the owner (as notes during testing).
+dog_38,2,teasing,Io,F,07/01/2014,Whippet ,19/05/2021,88,yes,no sound whole video (peter said he fixed it). Growing in 2nd and jumping during each test trial on the lap of the owner (as notes during testing).
+dog_38,3,blocked,Io,F,07/01/2014,Whippet ,19/05/2021,88,yes,no sound whole video (peter said he fixed it). Jumping during each test trial on the lap of the owner (as notes during testing).
+dog_39,1,blocked,Lillybet,F,08/05/2015,Samojede,11/05/2021,72,no,
+dog_39,2,teasing,Lillybet,F,08/05/2015,Samojede,11/05/2021,72,yes,
+dog_39,3,clumsy,Lillybet,F,08/05/2015,Samojede,11/05/2021,72,no,
+dog_40,1,teasing,Loki4,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,no sound whole video
+dog_40,2,blocked,Loki4,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,no sound whole video
+dog_40,3,clumsy,Loki4,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,"no sound whole video (peter said he fixed it). Took in 3rd trial sausage in first clumsy state, started again (so 40 second in total but score only 30 seconds)"
+dog_41,1,clumsy,Mogli5,M,12/04/2020,Border Collie,21/05/2021,13,yes,during 1st trial sound broke down 3rd trial sound came back before 4th trial sound broke down again. 2nd trial finished with sausage falling between barrier and slanted surface. Dog didn't get it in the test trial but took it when the trial was finished. Went drinking in 4th trial.
+dog_41,2,blocked,Mogli5,M,12/04/2020,Border Collie,21/05/2021,13,yes,no sound whole video. Went drinking during 3rd trial
+dog_41,3,teasing,Mogli5,M,12/04/2020,Border Collie,21/05/2021,13,yes,"1st and 4th trial no sound, 2nd and 3rd trial sound. In 3rd trial dog in other room barked because of this mogli5 went beeping"
+dog_42,1,blocked,Kira15,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,"sound broke down during 2nd trial, came back during 3rd and broke down again before 4th. In 1st, 2nd trial pawing and lateral at same time. "
+dog_42,2,clumsy,Kira15,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,3rd trial sound broke down.
+dog_42,3,teasing,Kira15,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,sound broke down during 2nd trial
+dog_43,1,teasing,Baldur,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,
+dog_43,2,clumsy,Baldur,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,
+dog_43,3,blocked,Baldur,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,
+dog_44,1,clumsy,Luna22,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,
+dog_44,2,teasing,Luna22,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,
+dog_44,3,blocked,Luna22,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,
+dog_45,1,blocked,Nala10,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,no sound whole video. Breathes heavily in all 4 trials. Beeping in 2nd trial.
+dog_45,2,teasing,Nala10,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,"no sound whole video. Breathes heavily 1st, 2nd and 3rd trial."
+dog_45,3,clumsy,Nala10,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,no sound whole video. Breathes heavily in all 4 trials.
+dog_46,1,teasing,Lucifer,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,no sound whole video. In 3rd and 4th trial sitting on the chaire behind the owner.
+dog_46,2,blocked,Lucifer,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,no sound whole video.
+dog_46,3,clumsy,Lucifer,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,no sound whole video.
+dog_47,1,clumsy,Dunni,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,no sound whole video. In 3rd trial sausage fell between slanted surface and barrier. Dog couldn't get the sausage and the test could continue
+dog_47,2,blocked,Dunni,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,no sound whole video. 4th trial barrier pulled out
+dog_47,3,teasing,Dunni,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,no sound whole video
+dog_48,1,blocked,Jolie,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,no sound whole video. Beeping in all trials.
+dog_48,2,clumsy,Jolie,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,no sound whole video. 1st and 2nd trial beeping. 3rd trial sausage fell throw but couldn't get it.
+dog_48,3,teasing,Jolie,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,no sound whole video. 1st and 2nd trial beeping. 3rd and 4th trial beeping and barking.
