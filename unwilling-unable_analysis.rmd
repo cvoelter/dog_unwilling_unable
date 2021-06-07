@@ -9,14 +9,18 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(lme4)
 library(summarytools)
+library(glmmTMB)
+library(car)
 
 source("./functions/diagnostic_fcns.r")
 source("./functions/glmm_stability.r")
 source("./functions/boot_glmm2.r")
 source("./functions/glmmTMB_stability.r")
 source("./functions/drop1_para_glmmtmb.r")
+source("./functions/boot_glmmTMB.r")
 
-#load(".RData")
+load("unwilling_unable_analysis.RData")
+
 ```
 
 Notes: 
@@ -27,7 +31,7 @@ excluded subjects:
 load demographics
 ```{r}
 demo.data <- read.csv(file = "data/unwilling_unable_demographics.csv") %>%
-  select(-comments.dogs, -sound.problem)%>%
+  select(-comments.dogs)%>%
   rename(subject=CDL.name)
 
 view(dfSummary(demo.data))
@@ -39,49 +43,549 @@ xdata <- read.csv(file = "data/unwilling_unable_scoring_data.csv")
 view(dfSummary(xdata))
 table(xdata$subject, xdata$trial)
 table(xdata$subject, xdata$condition)
-table(xdata$subject, xdata$age)
+
 ```
 
 aggregating data per trial
 
 ```{r}
 agg.data<-xdata %>%
+  mutate(Value=fct_recode(as.factor(Value), "rest"="sitting_down", "rest"="laying_down"))%>%
+  mutate(look_away=ifelse(Value=="look_away", 1, NA))%>%
   group_by(subject, condition, trial, Behaviour, Value)%>%
-  summarise(sum_duration=sum(duration))%>%
+  summarise(sum_duration=sum(duration), look_away=sum(look_away))%>%
   ungroup()%>%
-  filter(Behaviour!="trial")%>%
   droplevels()%>%
   complete(subject, condition, trial, Value, fill=list(sum.duration=0))%>% #fill in 0s
+  complete(subject, condition, trial, Value, fill=list(look_away=0))%>%
   inner_join(demo.data)%>%
   rename(sex=gender)%>%
   replace_na(list(sum_duration=0))
-
-
 view(dfSummary(agg.data))
+```
+
+
+do trial durations vary across conditions?
+```{r}
+trial.duration<-agg.data%>%
+  filter(Behaviour=="trial")%>%
+  rename(trial_duration=sum_duration)%>%
+  select(-Behaviour, -Value)
+
+hist(trial.duration$trial_duration)
+
+trial.duration%>%
+  group_by(condition)%>%
+  summarise(mean=mean(trial_duration), median=median(trial_duration), min=min(trial_duration), max=max(trial_duration))
+
+
+ggplot(data=trial.duration, aes(x=condition, y=trial_duration))+
+  geom_boxplot()+
+  geom_point()
 
 ```
 
 
+```{r}
 
+prop.data<-agg.data%>%
+   filter(Value!="1", Value!="2", Value!="3", Value!="4")%>%
+  full_join(trial.duration)%>%
+  mutate(prop.duration=sum_duration/trial_duration)
 
+ggplot(data=prop.data, aes(x=condition, y=prop.duration))+
+  geom_point()+
+  facet_wrap(~Value)
 
-
-
-
+```
 
 
 ```{r}
-walk.away.data<-agg.data%>%
+voc.data<-prop.data%>%
+  filter(Value=="vocalisation")%>%
+  select(-Behaviour)%>%
+  mutate(vocalisation=ifelse(sum_duration>0, 1, 0))
+
+write.csv(voc.data, file = "saves/voc.data.csv")
+```
+
+
+
+### plotting away time response
+
+```{r}
+walk.away.data<-prop.data%>%
   filter(Value=="walk_away")%>%
   group_by(subject, condition)%>%
-  summarise(mean_away_time=mean(sum_duration))
+  summarise(mean_prop_away_time=mean(prop.duration))
+
+```
+
+```{r}
+
+ggplot(data=walk.away.data, aes(x=condition , y=mean_prop_away_time))+
+  geom_boxplot(alpha=0.5)+
+  geom_point(alpha=0.3)+
+  theme_bw()
+  
+```
+### plotting resting response
+```{r}
+#sitting or laying down
+rest.data<-prop.data%>%
+  filter(Value=="rest")%>% 
+  group_by(subject, condition, Value)%>%
+  summarise(mean_prop_rest=mean(prop.duration))%>%
+  group_by(condition)%>%
+  add_count(mean_prop_rest)
 
 ```
 
 
 ```{r}
 
-ggplot(data=walk.away.data, aes(x=condition , y=mean_away_time))+
+ggplot(data=rest.data, aes(x=condition , y=mean_prop_rest))+
+  geom_boxplot(alpha=0.5)+
+  geom_point(alpha=0.01, size=rest.data$n)+
+  theme_bw()
+  
+```
+
+### plot looking away
+```{r}
+look.data<-agg.data%>%
+  filter(Value=="look_away")%>% 
+  mutate(look_away_binary=ifelse(look_away>0,1,ifelse(look_away==0, 0, NA)))%>%
+  group_by(subject, condition)%>%
+  summarise(mean_look_away=mean(look_away_binary))%>%
+  group_by(condition)%>%
+  add_count(mean_look_away)
+
+```
+
+
+```{r}
+
+ggplot(data=look.data, aes(x=condition , y=mean_look_away))+
+  geom_boxplot(alpha=0.5)+
+  geom_point(alpha=0.01, size=look.data$n)+
+  theme_bw()
+  
+```
+
+
+
+
+```{r}
+model.data.away<-prop.data%>%
+    filter(Value=="walk_away")
+
+model.data.away$z.trial<-scale(model.data.away$trial, center = TRUE, scale=TRUE)
+model.data.away$z.order<-scale(model.data.away$block, center = TRUE, scale=TRUE)
+model.data.away$z.age<-scale(model.data.away$age, center = TRUE, scale=TRUE)
+model.data.away$condition<- as.factor(model.data.away$condition)
+model.data.away$condition.c<- as.numeric(model.data.away$condition)-mean(as.numeric(model.data.away$condition))
+model.data.away$sex<- as.factor(model.data.away$sex)
+
+
+model.data.away$prop.duration.scaled <- (model.data.away$prop.duration*(length(model.data.away$prop.duration) - 1) + 0.5)/length(model.data.away$prop.duration)#transform DV to exclude 0 and 1s
+
+library(glmmTMB)
+m1.away<-glmmTMB(prop.duration.scaled ~ condition + z.trial + z.order + z.age + sex+(1+condition.c+z.trial+z.order|subject), family=beta_family, data=model.data.away,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+#convergence issues
+
+#fit the model without the correlations between random intercept and random slopes
+m1.away<-glmmTMB(prop.duration.scaled ~ condition + z.trial + z.order + z.age + sex+(1|subject)+(0+condition.c|subject)+(0+z.trial|subject)+(0+z.order|subject), family=beta_family, data=model.data.away,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+
+overdisp.test(m1.away)
+
+```
+```{r}
+drop1_m1<-drop1(m1.away, test="Chisq")%>%add_row(Df = rep(NA,1),  .before = 3)
+```
+
+```{r}
+summary(m1.away)
+```
+
+
+```{r}
+model.data.away$condition.relevelled<-relevel(model.data.away$condition, ref = "teasing")
+levels(model.data.away$condition.relevelled)
+model.data.away$condition.relevelled.c<- as.numeric(model.data.away$condition.relevelled)-mean(as.numeric(model.data.away$condition.relevelled))
+
+
+m1.away.relevelled<-glmmTMB(prop.duration.scaled ~ condition.relevelled + z.trial + z.order + z.age + sex+(1|subject)+(0+condition.relevelled.c|subject)+(0+z.trial|subject)+(0+z.order|subject), family=beta_family, data=model.data.away,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+
+summary(m1.away.relevelled)
+```
+
+
+
+
+
+
+
+model stability
+```{r}
+
+m1.stab=glmmTMB.stab(model.res=m1.away, para=F, data=model.data.away)
+
+m1.stab$summary
+
+m.stab.plot(round(m1.stab$summary[, -1], 3))
+```
+
+
+
+```{r}
+library(car)
+xx=lm(prop.duration.scaled ~ condition + z.trial + z.order + z.age + sex, data=model.data.away)
+vif(xx)
+```
+
+
+```{r}
+boot.m1.away<-boot.glmmTMB(m1.away, data=model.data.away,
+nboots=1000, para=T, n.cores=3, resol=100, level=0.95)
+```
+
+
+
+### output table
+
+```{r}
+
+model_table_away<- bind_cols(as.data.frame(summary(m1.away)$coefficients$cond),
+                             boot.m1.away$ci.estimates$fe[1:7,],
+                             drop1_m1) %>%
+                             select(Estimate, SE = `Std. Error`,LowerCI = X2.5., UpperCI = X97.5., z=`z value`, p=`Pr(>|z|)`,  Chi2 = LRT, df = Df, p_LRT = `Pr(>Chi)`) %>%
+  mutate(across(.cols = c(p, p_LRT), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z, Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+  mutate(across(Chi2:p_LRT, ~replace_na(.x, "")))%>%
+mutate(p_LRT=replace(p_LRT, p_LRT==0.000, "<0.001"))%>%
+mutate(p=replace(p, p==0.000, "<0.001"))
+
+write.csv(model_table_away, file = "saves/m1_results_prop_away.csv")
+```
+
+
+### Sitting / Laying down analysis
+
+```{r}
+model.data.rest<-prop.data%>%
+    filter(Value=="rest")
+
+model.data.rest$z.trial<-scale(model.data.rest$trial, center = TRUE, scale=TRUE)
+model.data.rest$z.order<-scale(model.data.rest$block, center = TRUE, scale=TRUE)
+model.data.rest$z.age<-scale(model.data.rest$age, center = TRUE, scale=TRUE)
+model.data.rest$condition<- as.factor(model.data.rest$condition)
+model.data.rest$condition.c<- as.numeric(model.data.rest$condition)-mean(as.numeric(model.data.rest$condition))
+model.data.rest$sex<- as.factor(model.data.rest$sex)
+
+
+model.data.rest$prop.duration.scaled <- (model.data.rest$prop.duration*(length(model.data.rest$prop.duration) - 1) + 0.5)/length(model.data.rest$prop.duration)#transform DV to exclude 0 and 1s
+
+
+m1.rest<-glmmTMB(prop.duration.scaled ~ condition + z.trial + z.order + z.age + sex+(1+condition.c+z.trial+z.order|subject), family=beta_family, data=model.data.rest,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+#convergence issues
+
+#fit the model without the correlations between random intercept and random slopes
+m1.rest<-glmmTMB(prop.duration.scaled ~ condition + z.trial + z.order + z.age + sex+(1|subject)+(0+condition.c|subject)+(0+z.trial|subject)+(0+z.order|subject), family=beta_family, data=model.data.rest,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+
+overdisp.test(m1.rest)
+
+```
+model stability
+```{r}
+
+m1.rest.stab=glmmTMB.stab(model.res=m1.rest, para=F, data=model.data.rest)
+
+m1.rest.stab$summary
+
+m.stab.plot(round(m1.rest.stab$summary[, -1], 3))
+```
+
+```{r}
+drop1_m1.rest<-drop1(m1.rest, test="Chisq")%>%add_row(Df = rep(NA,1),  .before = 3)
+```
+
+```{r}
+summary(m1.rest)
+```
+
+```{r}
+model.data.rest$condition.relevelled<-relevel(model.data.rest$condition, ref = "teasing")
+levels(model.data.rest$condition.relevelled)
+model.data.rest$condition.relevelled.c<- as.numeric(model.data.rest$condition.relevelled)-mean(as.numeric(model.data.rest$condition.relevelled))
+
+
+m1.away.relevelled<-glmmTMB(prop.duration.scaled ~ condition.relevelled + z.trial + z.order + z.age + sex+(1|subject)+(0+condition.relevelled.c|subject)+(0+z.trial|subject)+(0+z.order|subject), family=beta_family, data=model.data.rest,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+
+summary(m1.away.relevelled)
+```
+
+```{r}
+library(car)
+xx=lm(prop.duration.scaled ~ condition + z.trial + z.order + z.age + sex, data=model.data.rest)
+vif(xx)
+```
+
+
+```{r}
+boot.m1.rest<-boot.glmmTMB(m1.rest, data=model.data.rest,
+nboots=1000, para=T, n.cores=3, resol=100, level=0.95)
+```
+
+
+
+### output table
+
+```{r}
+
+model_table_rest<- bind_cols(as.data.frame(summary(m1.rest)$coefficients$cond),
+                             boot.m1.rest$ci.estimates$fe[1:7,],
+                             drop1_m1.rest) %>%
+                             select(Estimate, SE = `Std. Error`,LowerCI = X2.5., UpperCI = X97.5., z=`z value`, p=`Pr(>|z|)`,  Chi2 = LRT, df = Df, p_LRT = `Pr(>Chi)`) %>%
+  mutate(across(.cols = c(p, p_LRT), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z, Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+  mutate(across(Chi2:p_LRT, ~replace_na(.x, "")))%>%
+mutate(p_LRT=replace(p_LRT, p_LRT==0.000, "<0.001"))%>%
+mutate(p=replace(p, p==0.000, "<0.001"))
+
+write.csv(model_table_rest, file = "saves/m1_results_prop_rest.csv")
+```
+
+
+
+
+
+
+### Look away analysis
+
+```{r}
+model.data.look<-agg.data%>%
+    filter(Value=="look_away")%>%
+    mutate(look_away_binary=ifelse(look_away>0,1,ifelse(look_away==0, 0, NA)))
+
+model.data.look$z.trial<-scale(model.data.look$trial, center = TRUE, scale=TRUE)
+model.data.look$z.order<-scale(model.data.look$block, center = TRUE, scale=TRUE)
+model.data.look$z.age<-scale(model.data.look$age, center = TRUE, scale=TRUE)
+model.data.look$condition<- as.factor(model.data.look$condition)
+model.data.look$condition.c<- as.numeric(model.data.look$condition)-mean(as.numeric(model.data.look$condition))
+model.data.look$sex<- as.factor(model.data.look$sex)
+
+contr <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000000))
+
+m1.look<-glmer(look_away_binary ~ condition + z.trial + z.order + z.age + sex+(1+condition.c+z.trial+z.order|subject), family=binomial, data=model.data.look, control = contr)
+```
+model stability
+```{r}
+
+m1.look.stab=glmm.model.stab(model.res=m1.look, para=F, data=model.data.look)
+
+m1.look.stab$summary
+
+m.stab.plot(round(m1.look.stab$summary[, -1], 3))
+```
+
+```{r}
+drop1_m1.look<-drop1(m1.look, test="Chisq", control=contr)
+
+drop1_m1.look2<-drop1_m1.look%>%add_row(npar = rep(NA,1), .before = 3)
+```
+
+```{r}
+summary(m1.look)
+```
+
+```{r}
+model.data.look$condition.relevelled<-relevel(model.data.look$condition, ref = "teasing")
+levels(model.data.look$condition.relevelled)
+model.data.look$condition.relevelled.c<- as.numeric(model.data.look$condition.relevelled)-mean(as.numeric(model.data.look$condition.relevelled))
+
+
+contr <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000000))
+
+m1.look.rel<-glmer(look_away_binary ~ condition.relevelled + z.trial + z.order + z.age + sex+(1+condition.relevelled.c+z.trial+z.order|subject), family=binomial, data=model.data.look, control = contr)
+
+summary(m1.look.rel)
+```
+
+```{r}
+library(car)
+xx=lm(look_away_binary ~ condition + z.trial + z.order + z.age + sex, data=model.data.look)
+vif(xx)
+```
+
+
+```{r}
+boot.m1.look<-boot.glmm.pred(m1.look, nboots=1000, para=T, n.cores=3, resol=100, level=0.95)
+
+
+```
+
+
+
+### output table
+
+```{r}
+
+model_table_look<- bind_cols(as.data.frame(summary(m1.look)$coefficients),
+                             boot.m1.look$ci.estimates,
+                             drop1_m1.rest) %>%
+                             select(Estimate, SE = `Std. Error`,LowerCI = X2.5., UpperCI = X97.5., z=`z value`, p=`Pr(>|z|)`,  Chi2 = LRT, df = Df, p_LRT = `Pr(>Chi)`) %>%
+  mutate(across(.cols = c(p, p_LRT), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z, Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+  mutate(across(Chi2:p_LRT, ~replace_na(.x, "")))%>%
+mutate(p_LRT=replace(p_LRT, p_LRT==0.000, "<0.001"))%>%
+mutate(p=replace(p, p==0.000, "<0.001"))
+
+write.csv(model_table_look, file = "saves/m1_results_look.csv")
+```
+
+
+### Vocalisation
+
+
+```{r}
+
+voc.data<-read.csv(file = "data/voc_data_02062021.csv")
+
+view(dfSummary(voc.data))
+```
+Plot of vocalisations across conditions
+```{r}
+voc.data.agg<-voc.data%>%
+  group_by(subject, condition)%>%
+  summarise(mean.voc=mean(vocalisation))%>%
+  group_by(condition)%>%
+  add_count(mean.voc)
+
+library(ggpubr)
+ggplot(data=voc.data.agg, aes(x=condition, y=mean.voc, group=condition))+
+  #geom_boxplot()+
+  geom_point(alpha=0.03, size=voc.data.agg$n)+
+  geom_line(aes(group=subject), lty=2, alpha=0.2)+
+  theme_classic()
+  
+
+```
+
+
+
+### Vocalisation analysis
+
+```{r}
+model.data.voc<-voc.data
+
+model.data.voc$z.trial<-scale(model.data.voc$trial, center = TRUE, scale=TRUE)
+model.data.voc$z.order<-scale(model.data.voc$block, center = TRUE, scale=TRUE)
+model.data.voc$z.age<-scale(model.data.voc$age, center = TRUE, scale=TRUE)
+model.data.voc$condition<- as.factor(model.data.voc$condition)
+model.data.voc$condition.c<- as.numeric(model.data.voc$condition)-mean(as.numeric(model.data.voc$condition))
+model.data.voc$sex<- as.factor(model.data.voc$sex)
+
+contr <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000000))
+
+m1.voc<-glmer(vocalisation ~ condition + z.trial + z.order + z.age + sex+(1+condition.c+z.trial+z.order|subject), family=binomial, data=model.data.voc, control = contr)
+```
+
+model stability
+```{r}
+
+m1.voc.stab=glmm.model.stab(model.res=m1.voc, para=F, data=model.data.voc)
+
+m1.voc.stab$summary
+
+m.stab.plot(round(m1.voc.stab$summary[, -1], 3))
+```
+
+```{r}
+drop1_m1.voc<-drop1(m1.voc, test="Chisq", control=contr)
+
+drop1_m1.voc2<-drop1_m1.voc%>%add_row(npar = rep(NA,1), .before = 3)
+```
+
+```{r}
+summary(m1.voc)
+```
+
+```{r}
+model.data.voc$condition.relevelled<-relevel(model.data.voc$condition, ref = "teasing")
+levels(model.data.voc$condition.relevelled)
+model.data.voc$condition.relevelled.c<- as.numeric(model.data.voc$condition.relevelled)-mean(as.numeric(model.data.voc$condition.relevelled))
+
+
+contr <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000000))
+
+m1.voc.rel<-glmer(vocalisation ~ condition.relevelled + z.trial + z.order + z.age + sex+(1+condition.relevelled.c+z.trial+z.order|subject), family=binomial, data=model.data.voc, control = contr)
+
+summary(m1.voc.rel)
+```
+
+```{r}
+library(car)
+xx=lm(vocalisation ~ condition + z.trial + z.order + z.age + sex, data=model.data.voc)
+vif(xx)
+```
+
+
+```{r}
+boot.m1.voc<-boot.glmm.pred(m1.voc, nboots=1000, para=T, n.cores=3, resol=100, level=0.95)
+
+
+```
+
+
+
+### output table
+
+```{r}
+
+model_table_voc<- bind_cols(as.data.frame(summary(m1.voc)$coefficients),
+                             boot.m1.voc$ci.estimates,
+                             drop1_m1.rest) %>%
+                             select(Estimate, SE = `Std. Error`,LowerCI = X2.5., UpperCI = X97.5., z=`z value`, p=`Pr(>|z|)`,  Chi2 = LRT, df = Df, p_LRT = `Pr(>Chi)`) %>%
+  mutate(across(.cols = c(p, p_LRT), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z, Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+  mutate(across(Chi2:p_LRT, ~replace_na(.x, "")))%>%
+mutate(p_LRT=replace(p_LRT, p_LRT==0.000, "<0.001"))%>%
+mutate(p=replace(p, p==0.000, "<0.001"))
+
+write.csv(model_table_voc, file = "saves/m1_results_voc.csv")
+```
+
+
+
+
+
+
+
+### walk away without lateral approach
+
+```{r}
+ away.data2<-agg.data%>%
+  filter((Value=="lateral_approach" | Value=="walk_away")|Behaviour=="trial")%>%
+  mutate(category= ifelse(Value=="lateral_approach", "lateral_approach", ifelse(Value=="walk_away", "walk_away", ifelse(Behaviour=="trial", "trial_duration",NA))))%>%
+  select(-Value, -Behaviour, -look_away)%>%
+  pivot_wider(names_from = category, values_from=sum_duration)%>%
+  mutate(away_not_lateral=walk_away-lateral_approach, away_not_lateral2=ifelse(away_not_lateral>0, away_not_lateral, 0), prop_away_not_lateral=away_not_lateral2/trial_duration)
+
+```
+
+### plotting away time response (no lateral approach)
+
+```{r}
+away.data2.agg<-away.data2%>%
+  group_by(subject, condition)%>%
+  summarise(mean_prop_away_time=mean(prop_away_not_lateral))
+
+```
+
+```{r}
+
+ggplot(data=away.data2.agg, aes(x=condition , y=mean_prop_away_time))+
   geom_boxplot(alpha=0.5)+
   geom_point(alpha=0.3)+
   theme_bw()
@@ -89,384 +593,156 @@ ggplot(data=walk.away.data, aes(x=condition , y=mean_away_time))+
 ```
 
 
+```{r}
+model.data.away2<-away.data2
 
-##################until here #############
+model.data.away2$z.trial<-scale(model.data.away2$trial, center = TRUE, scale=TRUE)
+model.data.away2$z.order<-scale(model.data.away2$block, center = TRUE, scale=TRUE)
+model.data.away2$z.age<-scale(model.data.away2$age, center = TRUE, scale=TRUE)
+model.data.away2$condition<- as.factor(model.data.away2$condition)
+model.data.away2$condition.c<- as.numeric(model.data.away2$condition)-mean(as.numeric(model.data.away2$condition))
+model.data.away2$sex<- as.factor(model.data.away2$sex)
 
+
+model.data.away2$prop.duration.scaled <- (model.data.away2$prop_away_not_lateral*(length(model.data.away2$prop_away_not_lateral) - 1) + 0.5)/length(model.data.away2$prop_away_not_lateral)#transform DV to exclude 0 and 1s
+max(model.data.away2$prop.duration.scaled)
+
+
+library(glmmTMB)
+m1.away2<-glmmTMB(prop.duration.scaled ~ condition + z.trial + z.order + z.age + sex+(1+condition.c+z.trial+z.order|subject), family=beta_family, data=model.data.away2,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+#convergence issues
+
+#fit the model without the correlations between random intercept and random slopes
+m1.away2<-glmmTMB(prop.duration.scaled ~ condition + z.trial + z.order + z.age + sex+(1|subject)+(0+condition.c|subject)+(0+z.trial|subject)+(0+z.order|subject), family=beta_family, data=model.data.away2,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+
+overdisp.test(m1.away2)
+
+```
+```{r}
+drop1_m1.away2<-drop1(m1.away2, test="Chisq")%>%add_row(Df = rep(NA,1),  .before = 3)
+```
+
+```{r}
+summary(m1.away2)
+```
 
 
 ```{r}
-model.data$z.block<-scale(model.data$block, center = TRUE, scale=TRUE)
-model.data$z.age<-scale(model.data$age, center = TRUE, scale=TRUE)
-model.data$condition<- as.factor(model.data$condition)
-model.data$condition.c<- as.numeric(model.data$condition)-mean(as.numeric(model.data$condition))
-model.data$sex<- as.factor(model.data$sex)
-view(dfSummary(model.data)) 
+model.data.away2$condition.relevelled<-relevel(model.data.away2$condition, ref = "teasing")
+levels(model.data.away2$condition.relevelled)
+model.data.away2$condition.relevelled.c<- as.numeric(model.data.away2$condition.relevelled)-mean(as.numeric(model.data.away2$condition.relevelled))
 
 
-hist(model.data$wait)
+m1.away2.relevelled<-glmmTMB(prop.duration.scaled ~ condition.relevelled + z.trial + z.order + z.age + sex+(1|subject)+(0+condition.relevelled.c|subject)+(0+z.trial|subject)+(0+z.order|subject), family=beta_family, data=model.data.away2,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
 
-
+summary(m1.away2.relevelled)
 ```
 
 
 
 
-## GLMM: tb vs fb
-```{r}
-contr <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1000000))
-
-mm1 <- glmer(wait ~ condition*z.block +sex + z.age +(1 + condition.c * z.block | subject_ID),
-    data = model.data, family = binomial, control = contr
-  )
-```
 
 
-```{r}
-drop1(mm1, test="Chisq")
-```
-
-```{r}
-contr <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1000000))
-
-mm2 <- glmer(wait ~ condition+z.block +sex + z.age +(1 + condition.c + z.block | subject_ID),
-    data = model.data, family = binomial, control = contr
-  )
-summary(mm2)
-```
-```{r}
-drop1_mm2<-drop1(mm2, test="Chisq")
-```
-
-```{r}
-library(car)
-xx=lm(wait ~ condition+z.block +sex + z.age, data=model.data)
-vif(xx)
-```
 
 model stability
 ```{r}
 
-mm2.stab=glmm.model.stab(model.res=mm2, contr=NULL, para=F, data=NULL)
+m1.away2.stab=glmmTMB.stab(model.res=m1.away2, para=F, data=model.data.away)
 
-mm2.stab$summary
+m1.away2.stab$summary
 
-m.stab.plot(round(mm2.stab$summary[, -1], 3))
+m.stab.plot(round(m1.away2.stab$summary[, -1], 3))
 ```
---> model stable with regard to the fixed effects
+
+
 
 ```{r}
-boot.mm2=boot.glmm.pred(model.res=mm2, excl.warnings=F,
-nboots=1000, para=T, n.cores=3, resol=1000, level=0.95)
-
-mm2_boot_ci<-boot.mm2$ci.estimates
+library(car)
+xx=lm(prop.duration.scaled ~ condition + z.trial + z.order + z.age + sex, data=model.data.away2)
+vif(xx)
 ```
+
+
+```{r}
+boot.m1.away2<-boot.glmmTMB(m1.away2, data=model.data.away2,
+nboots=1000, para=T, n.cores=3, resol=100, level=0.95)
+```
+
 
 
 ### output table
 
 ```{r}
 
-model_table <- bind_cols(as.data.frame(summary(mm2)$coefficients),
-                         drop1_mm2,
-                         mm2_boot_ci) %>% #mm2_boot_ci<-boot.full$ci.estimates
-  select(Estimate, SE = `Std. Error`, LowerCI = X2.5., UpperCI = X97.5., Chi2 = LRT, df = npar, p = `Pr(Chi)`) %>%
-  mutate(across(.cols = c(p), ~ round(.x, 3))) %>% 
-  mutate(across(.cols = c(Estimate:Chi2), ~ round(.x, 2))) %>% 
-  mutate(across(Chi2:p, ~replace_na(.x, "")))%>%
-mutate(p=replace(p, p==0, "<0.001"))
+model_table_away_no_lateral_approach<- bind_cols(as.data.frame(summary(m1.away2)$coefficients$cond),
+                             boot.m1.away2$ci.estimates$fe[1:7,],
+                             drop1_m1.away2) %>%
+                             select(Estimate, SE = `Std. Error`,LowerCI = X2.5., UpperCI = X97.5., z=`z value`, p=`Pr(>|z|)`,  Chi2 = LRT, df = Df, p_LRT = `Pr(>Chi)`) %>%
+  mutate(across(.cols = c(p, p_LRT), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z, Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+  mutate(across(Chi2:p_LRT, ~replace_na(.x, "")))%>%
+mutate(p_LRT=replace(p_LRT, p_LRT==0.000, "<0.001"))%>%
+mutate(p=replace(p, p==0.000, "<0.001"))
 
-write.csv(model_table, file = "mm2_output_table.csv")
-```
-
-################################# 
-
-## Fb vs ignorance condition
-
-```{r}
-model.data2<-xdata%>%
-  filter(condition=="false_belief" | condition=="ignorant", age_months>0)%>%
-  mutate(wait=ifelse(response_SM=="move", 0, ifelse(response_SM=="stay", 1, NA)))%>%
-  mutate(trial.new=ifelse(condition=="false_belief", block, ifelse(condition=="ignorant", trial,NA)))%>%
-  droplevels()
-
-
-model.data2$z.trial<-scale(model.data2$trial.new, center = TRUE, scale=TRUE)
-model.data2$z.age<-scale(model.data2$age, center = TRUE, scale=TRUE)
-model.data2$condition<- as.factor(model.data2$condition)
-model.data2$condition.c<- as.numeric(model.data2$condition)-mean(as.numeric(model.data2$condition))
-model.data2$sex<- as.factor(model.data2$sex)
-view(dfSummary(model.data2)) 
-
-
-hist(model.data2$wait)
-
-
-```
-```{r}
-contr <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1000000))
-
-mm3.ign <- glmer(wait ~ condition*z.trial +sex + z.age +(1 + condition.c * z.trial | subject_ID),
-    data = model.data2, family = binomial, control = contr
-  )
-```
-
-```{r}
-drop1(mm3.ign, test="Chisq")
-```
-
-```{r}
-contr <- glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 1000000))
-
-mm4.ign <- glmer(wait ~ condition+z.trial +sex + z.age +(1 + condition.c + z.trial | subject_ID),
-    data = model.data2, family = binomial, control = contr
-  )
-summary(mm4.ign)
-```
-```{r}
-drop1_mm4<-drop1(mm4.ign, test="Chisq")
-
-drop1_mm4
-```
-
-```{r}
-library(car)
-xx=lm(wait ~ condition+z.trial +sex + z.age, data=model.data2)
-vif(xx)
-```
-
-model stability
-```{r}
-
-mm4.stab=glmm.model.stab(model.res=mm4.ign, contr=NULL, para=F, data=NULL)
-
-mm4.stab$summary
-
-m.stab.plot(round(mm4.stab$summary[, -1], 3))
-```
---> model stable with regard to the fixed effects
-
-```{r}
-boot.mm4=boot.glmm.pred(model.res=mm4.ign, excl.warnings=F,
-nboots=1000, para=T, n.cores=3, resol=1000, level=0.95)
-
-mm4_boot_ci<-boot.mm4$ci.estimates
-```
-
-```{r}
-
-model_table.mm4 <- bind_cols(as.data.frame(summary(mm4.ign)$coefficients),
-                         drop1_mm4,
-                         mm4_boot_ci) %>% 
-  select(Estimate, SE = `Std. Error`, LowerCI = X2.5., UpperCI = X97.5., Chi2 = LRT, df = npar, p = `Pr(Chi)`) %>%
-  mutate(across(.cols = c(p), ~ round(.x, 3))) %>% 
-  mutate(across(.cols = c(Estimate:Chi2), ~ round(.x, 2))) %>% 
-  mutate(across(Chi2:p, ~replace_na(.x, "")))%>%
-mutate(p=replace(p, p==0, "<0.001"))
-
-write.csv(model_table.mm4, file = "mm4_fb_ignorant_output.csv")
-```
-
-Visualise condition effect
-```{r}
-model.data.agg<-xdata%>%
-  filter( age_months>0)%>%#condition=="false_belief" | condition=="ignorant" | condition=="true_belief",
-  mutate(wait=ifelse(response_SM=="move", 0, ifelse(response_SM=="stay", 1, NA)))%>%
-  mutate(condition=fct_recode(condition, "False belief"="false_belief", "True belief"="true_belief", "Ignorant"="ignorant", "Training go"="training_go", "Training wait"="training_wait"), condition=fct_relevel(condition, "False belief", "True belief", "Ignorant"))%>%
-  group_by(condition, subject_ID)%>%
-  summarise(mean_wait=mean(wait))%>%
-  add_count(mean_wait)
-
-
-
-
-con.plot<-ggplot(data=model.data.agg, aes(x=condition, y=mean_wait))+
-  geom_boxplot(outlier.colour="white")+
-  geom_point(size=model.data.agg$n, alpha=0.1)+
-  theme_classic()+
-  xlab("Condition")+ ylab("Mean proportion waiting")
-
-con.plot
-```
-
-Visualise block effect
-```{r}
-model.data.agg<-model.data%>%
-  group_by(block, subject_ID)%>%
-  summarise(mean_wait=mean(wait))%>%
-  add_count(mean_wait)
-
-
-block.plot<-ggplot(data=model.data.agg, aes(x=as.factor(block), y=mean_wait))+
-  geom_boxplot(outlier.colour="white")+
-  geom_point(size=model.data.agg$n, alpha=0.1)+
-  theme_classic()+
-  xlab("Trial number within FB/TB condition")+ ylab("Mean proportion waiting")
-
-block.plot
-```
-
-```{r}
-library(cowplot)
-pg1<-plot_grid(con.plot, block.plot, labels=c("A", "B"))
-
-pg1
-
-ggsave(pg1, filename = "graphs/player_exp_choice_performance.pdf", width=16, height=8, scale=0.5)
-
+write.csv(model_table_away_no_lateral_approach, file = "saves/m1_results_prop_away_no_lateral_approach.csv")
 ```
 
 
-##########################
-## Latency analysis
-```{r}
 
-latency.data<-xdata%>%
-  filter(condition=="false_belief" | condition=="true_belief", age_months>0, response_SM=="move")%>%
-  droplevels()
-
-
-latency.data$z.block<-scale(latency.data$block, center = TRUE, scale=TRUE)
-latency.data$z.age<-scale(latency.data$age, center = TRUE, scale=TRUE)
-latency.data$condition<- as.factor(latency.data$condition)
-latency.data$condition.c<- as.numeric(latency.data$condition)-mean(as.numeric(latency.data$condition))
-latency.data$sex<- as.factor(latency.data$sex)
-view(dfSummary(latency.data)) 
-
-
-hist(latency.data$latency_SM)
-hist(log(latency.data$latency_SM))
-
-```
+#### Plots
 
 ```{r}
-mm5.latency <- lmer(log(latency_SM) ~ condition*z.block +sex + z.age +(1 + condition.c * z.block | subject_ID),
-    data = latency.data, REML = FALSE
-  )
-```
-```{r}
-diagnostics.plot(mm5.latency)
 
-ranef.diagn.plot(mm5.latency)
-```
+walk.away.data$condition2 <- jitter(as.numeric(as.factor(walk.away.data$condition), amount = .0001))
+
+library(gghalves)
 
 
-```{r}
-drop1(mm5.latency, test="Chisq")
-```
-reduced without interaction
-```{r}
+away_plot <- ggplot(data = walk.away.data, aes(x = condition, y= mean_prop_away_time)) +
+      geom_line(aes(x = condition2, group = subject), color = "darkgray", lty = 1, alpha = .3) +
+  geom_point(data = walk.away.data %>% filter(condition == "blocked"), aes(x = condition2), color = "dodgerblue", size = 1.5, alpha = .5) +
+  geom_point(data = walk.away.data %>% filter(condition == "clumsy"), aes(x = condition2), color = "darkorange", size = 1.5, alpha = .5, ) +
+    geom_point(data = walk.away.data %>% filter(condition == "teasing"), aes(x = condition2), color = "darkgreen", size = 1.5, alpha = .5, ) +
 
-latency.data$log.latency<-log(latency.data$latency_SM)
-
-mm6.latency <- lmer(log.latency ~ condition+z.block +sex + z.age +(1 + condition.c + z.block | subject_ID),
-    data = latency.data, REML = FALSE
-  )
-
-summary(mm6.latency)
-```
-```{r}
-diagnostics.plot(mm6.latency)
-
-ranef.diagn.plot(mm6.latency)
-```
-
-
-```{r}
-drop1.mm6<-drop1(mm6.latency, test="Chisq")
-```
-```{r}
-library(car)
-xx=lm(latency_SM ~ condition+z.block +sex + z.age, data=latency.data)
-vif(xx)
-```
-
-model stability
-```{r}
-
-mm6.stab=glmm.model.stab(model.res=mm6.latency, contr=NULL, para=F, data=NULL)
-
-mm6.stab$summary
-
-m.stab.plot(round(mm6.stab$summary[, -1], 3))
-```
---> model stable with regard to the fixed effects
-
-```{r}
-ci.mm6=confint.merMod(mm6.latency)
-
-ci.mm6<-tail(as.data.frame(ci.mm6),5)
+#  geom_half_violin(data = walk.away.data %>% filter(condition == "blocked"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 2.8), side = "r", width = 0.5, fill = "dodgerblue", alpha = .3) +
+ #   geom_half_violin(data = walk.away.data %>% filter(condition == "clumsy"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 1.8), side = "r", width = 0.5, fill = "darkorange", alpha = .3) +
+  #    geom_half_violin(data = walk.away.data %>% filter(condition == "teasing"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 0.8), side = "r", width = 0.5, fill = "darkgreen", alpha = .3) +
   
+  
+     geom_half_boxplot(
+     data = walk.away.data %>% filter(condition == "blocked"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 2.35), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'dodgerblue', alpha = .5) +
+   
+   geom_half_boxplot(
+     data = walk.away.data %>% filter(condition == "clumsy"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 1.58), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkorange', alpha = .5) +
+  
+     geom_half_boxplot(
+     data = walk.away.data %>% filter(condition == "teasing"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = .8), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkgreen', alpha = .5) +
+  
+  
+  
+  #  geom_errorbar(data = ci.data %>% filter(condition == "ost"), aes(x = 2.3, y = fitted, ymin = lower.cl, ymax = upper.cl), color = "darkorange", width = 0.1, size = 0.6) +
+ # geom_errorbar(data = ci.data %>% filter(condition == "non"), aes(x = 0.65, y = fitted, ymin = lower.cl, ymax = upper.cl), color = "dodgerblue", width = 0.1, size = 0.6) +
+ # geom_point(data = ci.data %>% filter(condition == "ost"), aes(x = 2.3, y = fitted), color = "darkorange", size = 1.5) +
+ # geom_point(data = ci.data %>% filter(condition == "non"), aes(x = 0.65, y = fitted), color = "dodgerblue", size = 1.5) +
+  # Define additional settings
+  xlab("Condition") +
+  ylab("Proportion time away") +
+  scale_x_continuous(breaks = c(1, 2, 3), labels = c("Blocked", "Clumsy", "Teasing"), limits = c(0.75,4)) +
+  ylim(0, 1) +
+  theme_classic()
 
-boot.mm6=boot.glmm.pred(model.res=mm6.latency, excl.warnings=F,
-nboots=1000, para=T, n.cores=3, resol=1000, level=0.95)
+away_plot 
 
-mm6_latency_boot_ci<-boot.mm6$ci.estimates
-```
-### output table
+ggsave(away_plot , filename = "graphs/unwilling_unable_away_time.png", width = 8, height = 8, scale = 0.4)
 
-```{r}
-
-model_table.latency <- bind_cols(as.data.frame(summary(mm6.latency)$coefficients),
-                         drop1.mm6,
-                         mm6_latency_boot_ci) %>% 
-  select(Estimate, SE = `Std. Error`, LowerCI = X2.5., UpperCI = X97.5., Chi2 = LRT, df = npar, p = `Pr(Chi)`) %>%
-  mutate(across(.cols = c(p), ~ round(.x, 3))) %>% 
-  mutate(across(.cols = c(Estimate:Chi2), ~ round(.x, 2))) %>% 
-  mutate(across(Chi2:p, ~replace_na(.x, "")))%>%
-mutate(p=replace(p, p==0, "<0.001"))
-
-write.csv(model_table.latency, file = "mm6_latency_output.csv")
-```
-
-Latency: Visualise condition effect
-```{r}
-model.data.agg.latency<-xdata%>%
-  filter(age_months>0, response_SM=="move")%>%#condition=="false_belief" | condition=="ignorant" | condition=="true_belief", 
-  mutate(condition=fct_recode(condition, "False belief"="false_belief", "True belief"="true_belief", "Ignorant"="ignorant"), condition=fct_relevel(condition, "False belief", "True belief", "Ignorant"))%>%
-  group_by(condition, subject_ID)%>%
-  summarise(mean_latency=mean(latency_SM))%>%
-  add_count(mean_latency)
-
-
-
-
-con.plot.latency<-ggplot(data=model.data.agg.latency, aes(x=condition, y=mean_latency))+
-  geom_boxplot(outlier.colour="white")+
-  geom_point(size=model.data.agg.latency$n, alpha=0.3)+
-  theme_classic()+
-  xlab("Condition")+ ylab("Mean latency to move (in sec)")
-
-con.plot.latency
-```
-
-Visualise block effect
-```{r}
-model.data.agg.latency2<-model.data%>%
-  group_by(block, subject_ID)%>%
-  summarise(mean_latency=mean(latency_SM))%>%
-  add_count(mean_latency)
-
-
-block.plot.latency<-ggplot(data=model.data.agg.latency2, aes(x=as.factor(block), y=mean_latency))+
-  geom_boxplot(outlier.colour="white")+
-  geom_point(size=model.data.agg.latency2$n, alpha=0.3)+
-  theme_classic()+
-  xlab("Trial number within FB/TB condition")+ ylab("Mean latency to move (in sec)")
-
-block.plot.latency
 ```
 ```{r}
-library(cowplot)
-pg2<-plot_grid(con.plot.latency, block.plot.latency, labels=c("A", "B"))
-
-pg2
-
-ggsave(pg2, filename = "graphs/player_exp_latency.png", width=12, height=8, scale=0.48)
-
-```
-
-
-```{r eval=FALSE}
-save.image(file=".RData")
+save.image("unwilling_unable_analysis.RData")
 ```
 

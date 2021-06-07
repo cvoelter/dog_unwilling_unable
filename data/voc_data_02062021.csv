@@ -1,0 +1,577 @@
+subject,condition,trial,Value,sum_duration,subjectID,block,sex,date.of.birth,breed,test.date,age,sound.problem,trial_duration,prop.duration,vocalisation
+Abby2,blocked,1,vocalisation,0,dog_11,2,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,33.63325131,0,0
+Abby2,blocked,2,vocalisation,0,dog_11,2,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,34.79991513,0,0
+Abby2,blocked,3,vocalisation,0,dog_11,2,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,36.19991172,0,0
+Abby2,blocked,4,vocalisation,0,dog_11,2,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,35.79991269,0,0
+Abby2,clumsy,1,vocalisation,0,dog_11,1,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,32.09999768,0,0
+Abby2,clumsy,2,vocalisation,0,dog_11,1,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,42.26666361,0,0
+Abby2,clumsy,3,vocalisation,0,dog_11,1,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,32.96666428,0,0
+Abby2,clumsy,4,vocalisation,0,dog_11,1,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,32.39999766,0,0
+Abby2,teasing,1,vocalisation,0,dog_11,3,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,29.86666476,0,0
+Abby2,teasing,2,vocalisation,0,dog_11,3,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,29.39999813,0,0
+Abby2,teasing,3,vocalisation,0,dog_11,3,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,30.96666469,0,0
+Abby2,teasing,4,vocalisation,0,dog_11,3,F,01/01/2015,Mix (Shepherd),06/05/2021,76,no,29.86666476,0,0
+Allegro2,blocked,1,vocalisation,0,dog_20,3,M,17/05/2013,Border Collie,13/05/2021,95,no,39.29999749,0,0
+Allegro2,blocked,2,vocalisation,0,dog_20,3,M,17/05/2013,Border Collie,13/05/2021,95,no,32.33333127,0,0
+Allegro2,blocked,3,vocalisation,0,dog_20,3,M,17/05/2013,Border Collie,13/05/2021,95,no,30.56666471,0,0
+Allegro2,blocked,4,vocalisation,0,dog_20,3,M,17/05/2013,Border Collie,13/05/2021,95,no,32.3666646,0,0
+Allegro2,clumsy,1,vocalisation,0,dog_20,1,M,17/05/2013,Border Collie,13/05/2021,95,no,37.03333333,0,0
+Allegro2,clumsy,2,vocalisation,0,dog_20,1,M,17/05/2013,Border Collie,13/05/2021,95,no,33.73333333,0,0
+Allegro2,clumsy,3,vocalisation,0,dog_20,1,M,17/05/2013,Border Collie,13/05/2021,95,no,32.86666667,0,0
+Allegro2,clumsy,4,vocalisation,0,dog_20,1,M,17/05/2013,Border Collie,13/05/2021,95,no,32.86666667,0,0
+Allegro2,teasing,1,vocalisation,0,dog_20,2,M,17/05/2013,Border Collie,13/05/2021,95,no,30.33329625,0,0
+Allegro2,teasing,2,vocalisation,0,dog_20,2,M,17/05/2013,Border Collie,13/05/2021,95,no,31.83329441,0,0
+Allegro2,teasing,3,vocalisation,0,dog_20,2,M,17/05/2013,Border Collie,13/05/2021,95,no,34.03329172,0,0
+Allegro2,teasing,4,vocalisation,0,dog_20,2,M,17/05/2013,Border Collie,13/05/2021,95,no,32.13329404,0,0
+Aoife,blocked,1,vocalisation,0,dog_13,3,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,33.76666667,0,0
+Aoife,blocked,2,vocalisation,0,dog_13,3,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,34.96666667,0,0
+Aoife,blocked,3,vocalisation,0,dog_13,3,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,36.46666667,0,0
+Aoife,blocked,4,vocalisation,0,dog_13,3,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,32.23333333,0,0
+Aoife,clumsy,1,vocalisation,0,dog_13,2,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,31.83327194,0,0
+Aoife,clumsy,2,vocalisation,0,dog_13,2,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,33.09993617,0,0
+Aoife,clumsy,3,vocalisation,0,dog_13,2,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,33.83326809,0,0
+Aoife,clumsy,4,vocalisation,0,dog_13,2,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,33.43326886,0,0
+Aoife,teasing,1,vocalisation,0,dog_13,1,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,33.76666481,0,0
+Aoife,teasing,2,vocalisation,0,dog_13,1,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,31.23333162,0,1
+Aoife,teasing,3,vocalisation,0,dog_13,1,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,33.03333152,0,0
+Aoife,teasing,4,vocalisation,0,dog_13,1,F,21/03/2013,Irish Glen of Imaal Terrier,20/05/2021,97,yes,31.46666494,0,0
+Arthur1,blocked,1,vocalisation,0,dog_09,1,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,33.83328137,0,0
+Arthur1,blocked,2,vocalisation,0,dog_09,1,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,30.49995315,0,0
+Arthur1,blocked,3,vocalisation,0,dog_09,1,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,33.26661557,0,0
+Arthur1,blocked,4,vocalisation,0,dog_09,1,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,24.66662878,0,0
+Arthur1,clumsy,1,vocalisation,0,dog_09,3,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,32.69999825,0,0
+Arthur1,clumsy,2,vocalisation,0,dog_09,3,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,35.4999981,0,0
+Arthur1,clumsy,3,vocalisation,0,dog_09,3,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,31.03333167,0,0
+Arthur1,clumsy,4,vocalisation,0,dog_09,3,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,32.63333159,0,0
+Arthur1,teasing,1,vocalisation,0,dog_09,2,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,35.76663219,0,0
+Arthur1,teasing,2,vocalisation,0,dog_09,2,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,31.33330313,0,0
+Arthur1,teasing,3,vocalisation,0,dog_09,2,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,31.56663623,0,0
+Arthur1,teasing,4,vocalisation,0,dog_09,2,M,01/01/2010,"Mix (Dachshund, Terrier)",07/05/2021,136,no,33.73330081,0,0
+Ava,blocked,1,vocalisation,0,dog_05,2,F,20/03/2019,Irish Red Setter,04/05/2021,25,yes,32.8999358,0,0
+Ava,blocked,2,vocalisation,0,dog_05,2,F,20/03/2019,Irish Red Setter,04/05/2021,25,yes,33.46660136,0,0
+Ava,blocked,3,vocalisation,0,dog_05,2,F,20/03/2019,Irish Red Setter,04/05/2021,25,yes,28.43327785,0,0
+Ava,blocked,4,vocalisation,0,dog_05,2,F,20/03/2019,Irish Red Setter,04/05/2021,25,yes,29.99994146,0,0
+Ava,clumsy,1,vocalisation,0,dog_05,1,F,20/03/2019,Irish Red Setter,04/05/2021,25,yes,31.9,0,0
+Ava,clumsy,2,vocalisation,0,dog_05,1,F,20/03/2019,Irish Red Setter,04/05/2021,25,yes,25.13333333,0,0
+Ava,clumsy,3,vocalisation,0,dog_05,1,F,20/03/2019,Irish Red Setter,04/05/2021,25,yes,27.6,0,0
+Ava,clumsy,4,vocalisation,0,dog_05,1,F,20/03/2019,Irish Red Setter,04/05/2021,25,yes,30.4,0,0
+Ava,teasing,1,vocalisation,0,dog_05,3,F,20/03/2019,Irish Red Setter,04/05/2021,25,no,36.16658877,0,0
+Ava,teasing,2,vocalisation,0,dog_05,3,F,20/03/2019,Irish Red Setter,04/05/2021,25,no,30.89993345,0,0
+Ava,teasing,3,vocalisation,0,dog_05,3,F,20/03/2019,Irish Red Setter,04/05/2021,25,no,31.06659975,0,0
+Ava,teasing,4,vocalisation,0,dog_05,3,F,20/03/2019,Irish Red Setter,04/05/2021,25,no,28.83327123,0,0
+Baldur,blocked,1,vocalisation,0,dog_43,3,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,30.93333333,0,0
+Baldur,blocked,2,vocalisation,0,dog_43,3,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,25.53333333,0,0
+Baldur,blocked,3,vocalisation,0,dog_43,3,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,31.06666667,0,0
+Baldur,blocked,4,vocalisation,0,dog_43,3,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,31.93333333,0,0
+Baldur,clumsy,1,vocalisation,0,dog_43,2,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,33.76666667,0,0
+Baldur,clumsy,2,vocalisation,0,dog_43,2,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,31.96666667,0,0
+Baldur,clumsy,3,vocalisation,0,dog_43,2,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,33.1,0,0
+Baldur,clumsy,4,vocalisation,0,dog_43,2,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,31.53333333,0,0
+Baldur,teasing,1,vocalisation,0,dog_43,1,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,31.43333333,0,0
+Baldur,teasing,2,vocalisation,0,dog_43,1,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,31.2,0,0
+Baldur,teasing,3,vocalisation,0,dog_43,1,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,34.56666667,0,0
+Baldur,teasing,4,vocalisation,0,dog_43,1,M,05/05/2015,Irish Soft Coated Wheaten Terrier,14/05/2021,72,no,35.16666667,0,0
+Blue3,blocked,1,vocalisation,0,dog_02,3,F,03/01/2013,Labrador Retriever,04/05/2021,100,yes,30.23333333,0,0
+Blue3,blocked,2,vocalisation,0,dog_02,3,F,03/01/2013,Labrador Retriever,04/05/2021,100,yes,30.43333333,0,0
+Blue3,blocked,3,vocalisation,0,dog_02,3,F,03/01/2013,Labrador Retriever,04/05/2021,100,yes,31.46666667,0,0
+Blue3,blocked,4,vocalisation,0,dog_02,3,F,03/01/2013,Labrador Retriever,04/05/2021,100,yes,29.86666667,0,0
+Blue3,clumsy,1,vocalisation,0,dog_02,1,F,03/01/2013,Labrador Retriever,04/05/2021,100,no,36.1332425,0,0
+Blue3,clumsy,2,vocalisation,0,dog_02,1,F,03/01/2013,Labrador Retriever,04/05/2021,100,no,34.36658028,0,0
+Blue3,clumsy,3,vocalisation,0,dog_02,1,F,03/01/2013,Labrador Retriever,04/05/2021,100,no,31.76658681,0,0
+Blue3,clumsy,4,vocalisation,0,dog_02,1,F,03/01/2013,Labrador Retriever,04/05/2021,100,no,30.96658883,0,0
+Blue3,teasing,1,vocalisation,0,dog_02,2,F,03/01/2013,Labrador Retriever,04/05/2021,100,yes,34.3,0,0
+Blue3,teasing,2,vocalisation,0,dog_02,2,F,03/01/2013,Labrador Retriever,04/05/2021,100,yes,33,0,0
+Blue3,teasing,3,vocalisation,0,dog_02,2,F,03/01/2013,Labrador Retriever,04/05/2021,100,yes,33.4,0,0
+Blue3,teasing,4,vocalisation,0,dog_02,2,F,03/01/2013,Labrador Retriever,04/05/2021,100,yes,33,0,0
+Cappuccina,blocked,1,vocalisation,0.433332888,dog_36,1,F,11/11/2014,Border Collie,21/05/2021,78,no,34.63329777,0.012512031,1
+Cappuccina,blocked,2,vocalisation,0,dog_36,1,F,11/11/2014,Border Collie,21/05/2021,78,no,30.99996816,0,0
+Cappuccina,blocked,3,vocalisation,0,dog_36,1,F,11/11/2014,Border Collie,21/05/2021,78,no,31.63330085,0,0
+Cappuccina,blocked,4,vocalisation,0,dog_36,1,F,11/11/2014,Border Collie,21/05/2021,78,no,23.16664288,0,0
+Cappuccina,clumsy,1,vocalisation,0,dog_36,2,F,11/11/2014,Border Collie,21/05/2021,78,no,34.29999784,0,0
+Cappuccina,clumsy,2,vocalisation,0,dog_36,2,F,11/11/2014,Border Collie,21/05/2021,78,no,32.79999793,0,0
+Cappuccina,clumsy,3,vocalisation,0,dog_36,2,F,11/11/2014,Border Collie,21/05/2021,78,no,31.23333137,0,0
+Cappuccina,clumsy,4,vocalisation,0,dog_36,2,F,11/11/2014,Border Collie,21/05/2021,78,no,33.06666458,0,0
+Cappuccina,teasing,1,vocalisation,0,dog_36,3,F,11/11/2014,Border Collie,21/05/2021,78,no,30.16663553,0,0
+Cappuccina,teasing,2,vocalisation,0,dog_36,3,F,11/11/2014,Border Collie,21/05/2021,78,no,32.16663347,0,0
+Cappuccina,teasing,3,vocalisation,0,dog_36,3,F,11/11/2014,Border Collie,21/05/2021,78,no,36.19996264,0,0
+Cappuccina,teasing,4,vocalisation,0,dog_36,3,F,11/11/2014,Border Collie,21/05/2021,78,no,30.53330182,0,0
+Charly5,blocked,1,vocalisation,0,dog_01,3,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,30.86663409,0,0
+Charly5,blocked,2,vocalisation,0,dog_01,3,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,33.43329805,0,0
+Charly5,blocked,3,vocalisation,0,dog_01,3,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,32.19996602,0,0
+Charly5,blocked,4,vocalisation,0,dog_01,3,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,36.89996105,0,0
+Charly5,clumsy,1,vocalisation,0,dog_01,2,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,31.06666484,0,0
+Charly5,clumsy,2,vocalisation,0,dog_01,2,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,32.49999809,0,0
+Charly5,clumsy,3,vocalisation,0,dog_01,2,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,38.33333108,0,0
+Charly5,clumsy,4,vocalisation,0,dog_01,2,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,29.33333161,0,0
+Charly5,teasing,1,vocalisation,0,dog_01,1,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,26.9332804,0,0
+Charly5,teasing,2,vocalisation,0,dog_01,1,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,31.8999373,0,0
+Charly5,teasing,3,vocalisation,0,dog_01,1,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,32.59993593,0,0
+Charly5,teasing,4,vocalisation,0,dog_01,1,M,25/08/2016,Spanish Water Dog,03/05/2021,56,no,35.19993082,0,0
+Destino,blocked,1,vocalisation,0,dog_21,1,M,21/01/2020,Border Collie,13/05/2021,15,no,33.83333333,0,0
+Destino,blocked,2,vocalisation,0,dog_21,1,M,21/01/2020,Border Collie,13/05/2021,15,no,36.3,0,0
+Destino,blocked,3,vocalisation,0,dog_21,1,M,21/01/2020,Border Collie,13/05/2021,15,no,31.16666667,0,0
+Destino,blocked,4,vocalisation,0,dog_21,1,M,21/01/2020,Border Collie,13/05/2021,15,no,35.8,0,0
+Destino,clumsy,1,vocalisation,0,dog_21,3,M,21/01/2020,Border Collie,13/05/2021,15,no,35.06666667,0,0
+Destino,clumsy,2,vocalisation,0,dog_21,3,M,21/01/2020,Border Collie,13/05/2021,15,no,33.86666667,0,0
+Destino,clumsy,3,vocalisation,0,dog_21,3,M,21/01/2020,Border Collie,13/05/2021,15,no,35.43333333,0,0
+Destino,clumsy,4,vocalisation,2.6,dog_21,3,M,21/01/2020,Border Collie,13/05/2021,15,no,35.7,0.072829132,1
+Destino,teasing,1,vocalisation,5.2,dog_21,2,M,21/01/2020,Border Collie,13/05/2021,15,no,36.3,0.143250689,1
+Destino,teasing,2,vocalisation,3.566666667,dog_21,2,M,21/01/2020,Border Collie,13/05/2021,15,no,33.26666667,0.107214429,1
+Destino,teasing,3,vocalisation,8.4,dog_21,2,M,21/01/2020,Border Collie,13/05/2021,15,no,33.03333333,0.254288597,1
+Destino,teasing,4,vocalisation,7.466666667,dog_21,2,M,21/01/2020,Border Collie,13/05/2021,15,no,31.73333333,0.235294118,1
+Duana,blocked,1,vocalisation,0,dog_33,1,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,30.79996958,0,0
+Duana,blocked,2,vocalisation,0,dog_33,1,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,31.79996859,0,0
+Duana,blocked,3,vocalisation,0,dog_33,1,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,31.93330179,0,0
+Duana,blocked,4,vocalisation,0,dog_33,1,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,31.16663588,0,0
+Duana,clumsy,1,vocalisation,0,dog_33,3,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,35.29996978,0,0
+Duana,clumsy,2,vocalisation,0,dog_33,3,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,31.83330609,0,0
+Duana,clumsy,3,vocalisation,0,dog_33,3,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,33.2999715,0,0
+Duana,clumsy,4,vocalisation,0,dog_33,3,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,34.6999703,0,0
+Duana,teasing,1,vocalisation,0,dog_33,2,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,32.13333333,0,0
+Duana,teasing,2,vocalisation,0,dog_33,2,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,32.13333333,0,0
+Duana,teasing,3,vocalisation,0,dog_33,2,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,29.56666667,0,0
+Duana,teasing,4,vocalisation,0,dog_33,2,F,03/12/2016,Irish Glen of Imaal Terrier,20/05/2021,53,yes,32.06666667,0,0
+Dunni,blocked,1,vocalisation,0,dog_47,2,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,29.96664509,0,0
+Dunni,blocked,2,vocalisation,0,dog_47,2,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,32.866643,0,0
+Dunni,blocked,3,vocalisation,0,dog_47,2,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,33.2333094,0,0
+Dunni,blocked,4,vocalisation,0,dog_47,2,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,38.09997257,0,0
+Dunni,clumsy,1,vocalisation,0,dog_47,1,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,30.73330826,0,0
+Dunni,clumsy,2,vocalisation,0,dog_47,1,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,33.53330598,0,0
+Dunni,clumsy,3,vocalisation,0,dog_47,1,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,32.39997357,0,0
+Dunni,clumsy,4,vocalisation,0,dog_47,1,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,32.49997349,0,0
+Dunni,teasing,1,vocalisation,0,dog_47,3,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,43.63333333,0,0
+Dunni,teasing,2,vocalisation,0,dog_47,3,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,28.6,0,0
+Dunni,teasing,3,vocalisation,0,dog_47,3,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,36.66666667,0,0
+Dunni,teasing,4,vocalisation,0,dog_47,3,F,21/02/2020,Miniature Pinscher ,19/05/2021,14,yes,39.76666667,0,0
+Fiby2,blocked,1,vocalisation,0,dog_32,3,F,04/12/2014,French Bulldog,18/05/2021,77,yes,32.53329773,0,0
+Fiby2,blocked,2,vocalisation,0,dog_32,3,F,04/12/2014,French Bulldog,18/05/2021,77,yes,31.66663202,0,0
+Fiby2,blocked,3,vocalisation,0,dog_32,3,F,04/12/2014,French Bulldog,18/05/2021,77,yes,31.39996564,0,0
+Fiby2,blocked,4,vocalisation,0,dog_32,3,F,04/12/2014,French Bulldog,18/05/2021,77,yes,34.56662884,0,0
+Fiby2,clumsy,1,vocalisation,0,dog_32,1,F,04/12/2014,French Bulldog,18/05/2021,77,yes,38.29992541,0,0
+Fiby2,clumsy,2,vocalisation,0,dog_32,1,F,04/12/2014,French Bulldog,18/05/2021,77,yes,33.99993378,0,0
+Fiby2,clumsy,3,vocalisation,0,dog_32,1,F,04/12/2014,French Bulldog,18/05/2021,77,yes,34.56659934,0,0
+Fiby2,clumsy,4,vocalisation,0,dog_32,1,F,04/12/2014,French Bulldog,18/05/2021,77,yes,34.09993359,0,0
+Fiby2,teasing,1,vocalisation,0,dog_32,2,F,04/12/2014,French Bulldog,18/05/2021,77,yes,33.26666667,0,0
+Fiby2,teasing,2,vocalisation,0,dog_32,2,F,04/12/2014,French Bulldog,18/05/2021,77,yes,34.83333333,0,0
+Fiby2,teasing,3,vocalisation,0,dog_32,2,F,04/12/2014,French Bulldog,18/05/2021,77,yes,32.43333333,0,0
+Fiby2,teasing,4,vocalisation,0,dog_32,2,F,04/12/2014,French Bulldog,18/05/2021,77,yes,32.66666667,0,0
+Flamme,blocked,1,vocalisation,0,dog_16,2,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,33.2,0,0
+Flamme,blocked,2,vocalisation,0,dog_16,2,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,32.73333333,0,0
+Flamme,blocked,3,vocalisation,0,dog_16,2,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,33.33333333,0,0
+Flamme,blocked,4,vocalisation,0,dog_16,2,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,27.53333333,0,0
+Flamme,clumsy,1,vocalisation,0,dog_16,3,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,34.69996698,0,0
+Flamme,clumsy,2,vocalisation,0,dog_16,3,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,29.56663853,0,0
+Flamme,clumsy,3,vocalisation,0,dog_16,3,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,31.13330371,0,0
+Flamme,clumsy,4,vocalisation,0,dog_16,3,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,32.26663596,0,0
+Flamme,teasing,1,vocalisation,0,dog_16,1,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,30.76663516,0,0
+Flamme,teasing,2,vocalisation,0,dog_16,1,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,22.53331026,0,0
+Flamme,teasing,3,vocalisation,0,dog_16,1,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,32.29996692,0,1
+Flamme,teasing,4,vocalisation,0,dog_16,1,M,09/03/2008,Pyrenean Sheepdog - smooth faced,19/05/2021,158,yes,32.09996713,0,1
+Flocke2,blocked,1,vocalisation,6.299993347,dog_07,3,F,12/11/2008,Border Collie,06/05/2021,149,no,32.63329887,0.193054137,1
+Flocke2,blocked,2,vocalisation,10.56665551,dog_07,3,F,12/11/2008,Border Collie,06/05/2021,149,no,32.19996599,0.32815735,1
+Flocke2,blocked,3,vocalisation,0,dog_07,3,F,12/11/2008,Border Collie,06/05/2021,149,no,35.06662963,0,0
+Flocke2,blocked,4,vocalisation,4.033329074,dog_07,3,F,12/11/2008,Border Collie,06/05/2021,149,no,33.8999642,0.118977384,1
+Flocke2,clumsy,1,vocalisation,0,dog_07,2,F,12/11/2008,Border Collie,06/05/2021,149,no,33.16659598,0,0
+Flocke2,clumsy,2,vocalisation,0,dog_07,2,F,12/11/2008,Border Collie,06/05/2021,149,no,32.86659662,0,0
+Flocke2,clumsy,3,vocalisation,0,dog_07,2,F,12/11/2008,Border Collie,06/05/2021,149,no,32.36659769,0,0
+Flocke2,clumsy,4,vocalisation,0,dog_07,2,F,12/11/2008,Border Collie,06/05/2021,149,no,33.3332623,0,0
+Flocke2,teasing,1,vocalisation,0.79999909,dog_07,1,F,12/11/2008,Border Collie,06/05/2021,149,no,30.49996531,0.026229508,1
+Flocke2,teasing,2,vocalisation,9.566655785,dog_07,1,F,12/11/2008,Border Collie,06/05/2021,149,no,26.76663622,0.357409714,1
+Flocke2,teasing,3,vocalisation,10.99998749,dog_07,1,F,12/11/2008,Border Collie,06/05/2021,149,no,28.96663372,0.379746835,1
+Flocke2,teasing,4,vocalisation,10.8999876,dog_07,1,F,12/11/2008,Border Collie,06/05/2021,149,no,31.59996406,0.344936709,1
+Gandalf,blocked,1,vocalisation,0,dog_18,1,M,14/07/2019,Andalusian Hound,11/05/2021,21,yes during 3rd trial,28.19999855,0,0
+Gandalf,blocked,2,vocalisation,0,dog_18,1,M,14/07/2019,Andalusian Hound,11/05/2021,21,yes during 3rd trial,33.23333163,0,0
+Gandalf,blocked,3,vocalisation,0,dog_18,1,M,14/07/2019,Andalusian Hound,11/05/2021,21,yes during 3rd trial,27.59999859,0,0
+Gandalf,blocked,4,vocalisation,0,dog_18,1,M,14/07/2019,Andalusian Hound,11/05/2021,21,yes during 3rd trial,32.39999834,0,0
+Gandalf,clumsy,1,vocalisation,0,dog_18,2,M,14/07/2019,Andalusian Hound,11/05/2021,21,yes during 4th trial,35.19999791,0,0
+Gandalf,clumsy,2,vocalisation,0,dog_18,2,M,14/07/2019,Andalusian Hound,11/05/2021,21,yes during 4th trial,40.46666426,0,0
+Gandalf,clumsy,3,vocalisation,0,dog_18,2,M,14/07/2019,Andalusian Hound,11/05/2021,21,yes during 4th trial,23.79999859,0,0
+Gandalf,clumsy,4,vocalisation,0,dog_18,2,M,14/07/2019,Andalusian Hound,11/05/2021,21,yes during 4th trial,36.5666645,0,0
+Gandalf,teasing,1,vocalisation,0,dog_18,3,M,14/07/2019,Andalusian Hound,11/05/2021,21,no,32.26666475,0,0
+Gandalf,teasing,2,vocalisation,0,dog_18,3,M,14/07/2019,Andalusian Hound,11/05/2021,21,no,32.93333137,0,0
+Gandalf,teasing,3,vocalisation,13.39999921,dog_18,3,M,14/07/2019,Andalusian Hound,11/05/2021,21,no,30.59999818,0.437908497,1
+Gandalf,teasing,4,vocalisation,11.73333264,dog_18,3,M,14/07/2019,Andalusian Hound,11/05/2021,21,no,33.03333137,0.355196771,1
+Gipsy2,blocked,1,vocalisation,0,dog_37,3,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,31.49999849,0,0
+Gipsy2,blocked,2,vocalisation,0,dog_37,3,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,32.16666513,0,0
+Gipsy2,blocked,3,vocalisation,0,dog_37,3,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,31.83333181,0,1
+Gipsy2,blocked,4,vocalisation,0,dog_37,3,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,33.26666508,0,1
+Gipsy2,clumsy,1,vocalisation,0,dog_37,2,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,35.33333108,0,0
+Gipsy2,clumsy,2,vocalisation,0,dog_37,2,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,32.43333127,0,0
+Gipsy2,clumsy,3,vocalisation,0,dog_37,2,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,34.03333116,0,0
+Gipsy2,clumsy,4,vocalisation,0,dog_37,2,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,35.49999774,0,0
+Gipsy2,teasing,1,vocalisation,0,dog_37,1,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,34.69992762,0,0
+Gipsy2,teasing,2,vocalisation,0,dog_37,1,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,31.26660145,0,0
+Gipsy2,teasing,3,vocalisation,0,dog_37,1,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,33.96659582,0,0
+Gipsy2,teasing,4,vocalisation,0,dog_37,1,F,15/07/2012,"Mix (Chihuahua, Parson Russell Terrier, Chow Chow, German Shepherd Dog)",12/05/2021,105,no,29.26660562,0,0
+Io,blocked,1,vocalisation,0,dog_38,3,F,07/01/2014,Whippet ,19/05/2021,88,yes,34.29996167,0,0
+Io,blocked,2,vocalisation,0,dog_38,3,F,07/01/2014,Whippet ,19/05/2021,88,yes,30.83329888,0,0
+Io,blocked,3,vocalisation,0,dog_38,3,F,07/01/2014,Whippet ,19/05/2021,88,yes,33.03329642,0,0
+Io,blocked,4,vocalisation,0,dog_38,3,F,07/01/2014,Whippet ,19/05/2021,88,yes,33.46662927,0,0
+Io,clumsy,1,vocalisation,0,dog_38,1,F,07/01/2014,Whippet ,19/05/2021,88,yes,35.16663326,0,0
+Io,clumsy,2,vocalisation,0,dog_38,1,F,07/01/2014,Whippet ,19/05/2021,88,yes,26.29997502,0,0
+Io,clumsy,3,vocalisation,0,dog_38,1,F,07/01/2014,Whippet ,19/05/2021,88,yes,35.29996647,0,0
+Io,clumsy,4,vocalisation,0,dog_38,1,F,07/01/2014,Whippet ,19/05/2021,88,yes,32.36663592,0,1
+Io,teasing,1,vocalisation,0,dog_38,2,F,07/01/2014,Whippet ,19/05/2021,88,yes,29.09996499,0,0
+Io,teasing,2,vocalisation,0,dog_38,2,F,07/01/2014,Whippet ,19/05/2021,88,yes,32.36662772,0,0
+Io,teasing,3,vocalisation,0,dog_38,2,F,07/01/2014,Whippet ,19/05/2021,88,yes,32.23329455,0,0
+Io,teasing,4,vocalisation,0,dog_38,2,F,07/01/2014,Whippet ,19/05/2021,88,yes,32.4999609,0,0
+Jax,blocked,1,vocalisation,7.966657965,dog_29,2,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,yes,35.39996134,0.225047081,1
+Jax,blocked,2,vocalisation,0,dog_29,2,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,yes,27.99996942,0,0
+Jax,blocked,3,vocalisation,5.999993447,dog_29,2,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,yes,31.59996549,0.189873418,1
+Jax,blocked,4,vocalisation,9.566656218,dog_29,2,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,yes,36.16662717,0.264516129,1
+Jax,clumsy,1,vocalisation,0,dog_29,1,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,no,33.26666475,0,0
+Jax,clumsy,2,vocalisation,0,dog_29,1,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,no,34.06666471,0,0
+Jax,clumsy,3,vocalisation,0,dog_29,1,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,no,34.63333134,0,0
+Jax,clumsy,4,vocalisation,0,dog_29,1,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,no,35.69999794,0,0
+Jax,teasing,1,vocalisation,10.43332228,dog_29,3,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,no,32.13329929,0.324688797,1
+Jax,teasing,2,vocalisation,9.133323654,dog_29,3,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,no,34.53329674,0.264478764,1
+Jax,teasing,3,vocalisation,8.599990886,dog_29,3,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,no,33.86663078,0.253937008,1
+Jax,teasing,4,vocalisation,9.333323444,dog_29,3,M,11/11/2010,Parson Russel Terrier,17/05/2021,126,no,31.09996705,0.300107181,1
+Jolie,blocked,1,vocalisation,0,dog_48,1,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,30.36663699,0,1
+Jolie,blocked,2,vocalisation,0,dog_48,1,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,34.16663327,0,1
+Jolie,blocked,3,vocalisation,0,dog_48,1,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,28.69997195,0,1
+Jolie,blocked,4,vocalisation,0,dog_48,1,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,32.13330193,0,1
+Jolie,clumsy,1,vocalisation,0,dog_48,2,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,31.16666667,0,1
+Jolie,clumsy,2,vocalisation,0,dog_48,2,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,33.6,0,1
+Jolie,clumsy,3,vocalisation,0,dog_48,2,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,34.16666667,0,0
+Jolie,clumsy,4,vocalisation,0,dog_48,2,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,37.66666667,0,0
+Jolie,teasing,1,vocalisation,0,dog_48,3,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,32.33333333,0,1
+Jolie,teasing,2,vocalisation,0,dog_48,3,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,33.56666667,0,1
+Jolie,teasing,3,vocalisation,0,dog_48,3,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,34.76666667,0,1
+Jolie,teasing,4,vocalisation,0,dog_48,3,F,04/04/2010,"Mix (Pinscher, Whippet)",19/05/2021,133,yes,31.6,0,1
+Josi,blocked,1,vocalisation,0,dog_03,1,F,01/01/2018,Mix,12/05/2021,40,no,34.6,0,0
+Josi,blocked,2,vocalisation,0,dog_03,1,F,01/01/2018,Mix,12/05/2021,40,no,33.16666667,0,0
+Josi,blocked,3,vocalisation,0,dog_03,1,F,01/01/2018,Mix,12/05/2021,40,no,31.83333333,0,0
+Josi,blocked,4,vocalisation,0,dog_03,1,F,01/01/2018,Mix,12/05/2021,40,no,27.7,0,0
+Josi,clumsy,1,vocalisation,0,dog_03,3,F,01/01/2018,Mix,12/05/2021,40,no,35.76660953,0,0
+Josi,clumsy,2,vocalisation,0,dog_03,3,F,01/01/2018,Mix,12/05/2021,40,no,44.26659596,0,0
+Josi,clumsy,3,vocalisation,0,dog_03,3,F,01/01/2018,Mix,12/05/2021,40,no,34.93327753,0,0
+Josi,clumsy,4,vocalisation,0,dog_03,3,F,01/01/2018,Mix,12/05/2021,40,no,31.56661624,0,0
+Josi,teasing,1,vocalisation,0,dog_03,2,F,01/01/2018,Mix,12/05/2021,40,no,32.76666667,0,0
+Josi,teasing,2,vocalisation,0,dog_03,2,F,01/01/2018,Mix,12/05/2021,40,no,30.8,0,0
+Josi,teasing,3,vocalisation,0,dog_03,2,F,01/01/2018,Mix,12/05/2021,40,no,34.66666667,0,0
+Josi,teasing,4,vocalisation,0,dog_03,2,F,01/01/2018,Mix,12/05/2021,40,no,32.86666667,0,0
+Juna,blocked,1,vocalisation,0,dog_24,1,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,32.53330442,0,0
+Juna,blocked,2,vocalisation,0,dog_24,1,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,31.89997165,0,0
+Juna,blocked,3,vocalisation,0,dog_24,1,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,30.99997245,0,0
+Juna,blocked,4,vocalisation,0,dog_24,1,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,35.19996871,0,0
+Juna,clumsy,1,vocalisation,0,dog_24,2,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,35.03333333,0,0
+Juna,clumsy,2,vocalisation,0,dog_24,2,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,32.63333333,0,0
+Juna,clumsy,3,vocalisation,0,dog_24,2,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,33.03333333,0,0
+Juna,clumsy,4,vocalisation,0,dog_24,2,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,32.46666667,0,0
+Juna,teasing,1,vocalisation,0,dog_24,3,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,31.2,0,0
+Juna,teasing,2,vocalisation,0,dog_24,3,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,33.43333333,0,0
+Juna,teasing,3,vocalisation,0,dog_24,3,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,33.2,0,0
+Juna,teasing,4,vocalisation,0,dog_24,3,F,06/02/2016,Flat Coated Retriever,25/05/2021,63,no,32.8,0,0
+Jurij,blocked,1,vocalisation,0,dog_04,2,M,14/01/2016,Mix,05/05/2021,63,yes,29.56661316,0,0
+Jurij,blocked,2,vocalisation,0,dog_04,2,M,14/01/2016,Mix,05/05/2021,63,yes,33.33327301,0,0
+Jurij,blocked,3,vocalisation,0,dog_04,2,M,14/01/2016,Mix,05/05/2021,63,yes,29.16661388,0,0
+Jurij,blocked,4,vocalisation,0,dog_04,2,M,14/01/2016,Mix,05/05/2021,63,yes,32.49994119,0,0
+Jurij,clumsy,1,vocalisation,0,dog_04,3,M,14/01/2016,Mix,05/05/2021,63,no,31.1,0,0
+Jurij,clumsy,2,vocalisation,0,dog_04,3,M,14/01/2016,Mix,05/05/2021,63,no,34.5,0,0
+Jurij,clumsy,3,vocalisation,0,dog_04,3,M,14/01/2016,Mix,05/05/2021,63,no,30.16666667,0,0
+Jurij,clumsy,4,vocalisation,0,dog_04,3,M,14/01/2016,Mix,05/05/2021,63,no,33.86666667,0,0
+Jurij,teasing,1,vocalisation,0,dog_04,1,M,14/01/2016,Mix,05/05/2021,63,yes,28.89996033,0,0
+Jurij,teasing,2,vocalisation,0,dog_04,1,M,14/01/2016,Mix,05/05/2021,63,yes,31.96662279,0,0
+Jurij,teasing,3,vocalisation,0,dog_04,1,M,14/01/2016,Mix,05/05/2021,63,yes,31.19995718,0,0
+Jurij,teasing,4,vocalisation,0,dog_04,1,M,14/01/2016,Mix,05/05/2021,63,yes,32.73328841,0,0
+Kira15,blocked,1,vocalisation,0,dog_42,1,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,32.33329912,0,0
+Kira15,blocked,2,vocalisation,0,dog_42,1,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,32.09996603,0,0
+Kira15,blocked,3,vocalisation,0,dog_42,1,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,32.19996592,0,0
+Kira15,blocked,4,vocalisation,0,dog_42,1,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,33.23329816,0,0
+Kira15,clumsy,1,vocalisation,0,dog_42,2,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,34.06666667,0,0
+Kira15,clumsy,2,vocalisation,0,dog_42,2,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,33.33333333,0,0
+Kira15,clumsy,3,vocalisation,0,dog_42,2,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,35.26666667,0,0
+Kira15,clumsy,4,vocalisation,0,dog_42,2,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,34.63333333,0,0
+Kira15,teasing,1,vocalisation,0,dog_42,3,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,31.53333123,0,0
+Kira15,teasing,2,vocalisation,0,dog_42,3,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,34.16666439,0,0
+Kira15,teasing,3,vocalisation,0,dog_42,3,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,32.06666453,0,0
+Kira15,teasing,4,vocalisation,0,dog_42,3,F,02/05/2013,Golden Retriever,21/05/2021,96,yes,32.66666449,0,0
+Kobe,blocked,1,vocalisation,0,dog_14,3,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,32.5332989,0,0
+Kobe,blocked,2,vocalisation,0,dog_14,3,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,34.13329721,0,0
+Kobe,blocked,3,vocalisation,0,dog_14,3,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,31.79996635,0,0
+Kobe,blocked,4,vocalisation,0,dog_14,3,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,33.96663072,0,0
+Kobe,clumsy,1,vocalisation,0,dog_14,1,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,29.86666667,0,0
+Kobe,clumsy,2,vocalisation,0,dog_14,1,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,32.5,0,0
+Kobe,clumsy,3,vocalisation,0,dog_14,1,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,35.06666667,0,0
+Kobe,clumsy,4,vocalisation,0,dog_14,1,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,32.9,0,0
+Kobe,teasing,1,vocalisation,0,dog_14,2,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,30.19999807,0,0
+Kobe,teasing,2,vocalisation,0,dog_14,2,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,32.49999792,0,0
+Kobe,teasing,3,vocalisation,0,dog_14,2,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,32.06666461,0,0
+Kobe,teasing,4,vocalisation,0,dog_14,2,M,07/09/2013,"Mix (English Cocker Spaniel, Dalmatian, Samoyed)",21/05/2021,92,no,32.19999794,0,0
+Kylie,blocked,1,vocalisation,0,dog_12,1,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,30.69997205,0,0
+Kylie,blocked,2,vocalisation,0,dog_12,1,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,33.26663638,0,0
+Kylie,blocked,3,vocalisation,0,dog_12,1,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,30.0666393,0,0
+Kylie,blocked,4,vocalisation,0,dog_12,1,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,28.9666403,0,0
+Kylie,clumsy,1,vocalisation,0,dog_12,2,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,37.93333333,0,0
+Kylie,clumsy,2,vocalisation,0,dog_12,2,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,33.6,0,0
+Kylie,clumsy,3,vocalisation,0,dog_12,2,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,27.43333333,0,0
+Kylie,clumsy,4,vocalisation,0,dog_12,2,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,33.8,0,0
+Kylie,teasing,1,vocalisation,0,dog_12,3,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,34.56666667,0,0
+Kylie,teasing,2,vocalisation,0,dog_12,3,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,32.13333333,0,0
+Kylie,teasing,3,vocalisation,0,dog_12,3,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,32.43333333,0,0
+Kylie,teasing,4,vocalisation,0,dog_12,3,F,05/05/2017,Australian Shepherd,21/05/2021,48,no,31.6,0,0
+Leia2,blocked,1,vocalisation,0,dog_17,2,F,15/02/2014,Mix,19/05/2021,87,yes,34.06666667,0,0
+Leia2,blocked,2,vocalisation,0,dog_17,2,F,15/02/2014,Mix,19/05/2021,87,yes,33.56666667,0,0
+Leia2,blocked,3,vocalisation,0,dog_17,2,F,15/02/2014,Mix,19/05/2021,87,yes,30.8,0,0
+Leia2,blocked,4,vocalisation,0,dog_17,2,F,15/02/2014,Mix,19/05/2021,87,yes,31.63333333,0,0
+Leia2,clumsy,1,vocalisation,0,dog_17,1,F,15/02/2014,Mix,19/05/2021,87,yes,32.53326558,0,0
+Leia2,clumsy,2,vocalisation,0,dog_17,1,F,15/02/2014,Mix,19/05/2021,87,yes,31.93326683,0,0
+Leia2,clumsy,3,vocalisation,0,dog_17,1,F,15/02/2014,Mix,19/05/2021,87,yes,32.66659863,0,0
+Leia2,clumsy,4,vocalisation,0,dog_17,1,F,15/02/2014,Mix,19/05/2021,87,yes,33.33326391,0,0
+Leia2,teasing,1,vocalisation,0,dog_17,3,F,15/02/2014,Mix,19/05/2021,87,yes,30.79999843,0,0
+Leia2,teasing,2,vocalisation,0,dog_17,3,F,15/02/2014,Mix,19/05/2021,87,yes,31.4999984,0,0
+Leia2,teasing,3,vocalisation,0,dog_17,3,F,15/02/2014,Mix,19/05/2021,87,yes,31.76666505,0,0
+Leia2,teasing,4,vocalisation,0,dog_17,3,F,15/02/2014,Mix,19/05/2021,87,yes,32.33333169,0,0
+Lenny4,blocked,1,vocalisation,0,dog_15,1,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,yes,31.99994122,0,0
+Lenny4,blocked,2,vocalisation,0.733331986,dog_15,1,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,yes,36.39993314,0.02014652,1
+Lenny4,blocked,3,vocalisation,0,dog_15,1,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,yes,32.29994067,0,0
+Lenny4,blocked,4,vocalisation,0,dog_15,1,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,yes,32.69993994,0,0
+Lenny4,clumsy,1,vocalisation,0,dog_15,3,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,at 3rd trial,32.03333131,0,0
+Lenny4,clumsy,2,vocalisation,0,dog_15,3,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,at 3rd trial,28.29999821,0,0
+Lenny4,clumsy,3,vocalisation,0,dog_15,3,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,at 3rd trial,33.06666458,0,0
+Lenny4,clumsy,4,vocalisation,0,dog_15,3,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,at 3rd trial,32.2333313,0,0
+Lenny4,teasing,1,vocalisation,0,dog_15,2,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,yes,36.66666435,0,0
+Lenny4,teasing,2,vocalisation,0,dog_15,2,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,yes,32.09999797,0,0
+Lenny4,teasing,3,vocalisation,0,dog_15,2,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,yes,29.36666481,0,0
+Lenny4,teasing,4,vocalisation,0,dog_15,2,M,15/07/2014,Canarian Warren Hound,11/05/2021,81,yes,28.43333154,0,0
+Lieserl,blocked,1,vocalisation,0,dog_10,2,F,07/04/2015,Border Collie,06/05/2021,72,no,34.46666429,0,0
+Lieserl,blocked,2,vocalisation,0,dog_10,2,F,07/04/2015,Border Collie,06/05/2021,72,no,33.09999772,0,0
+Lieserl,blocked,3,vocalisation,0,dog_10,2,F,07/04/2015,Border Collie,06/05/2021,72,no,32.93333106,0,0
+Lieserl,blocked,4,vocalisation,0.63333329,dog_10,2,F,07/04/2015,Border Collie,06/05/2021,72,no,35.43333089,0.017873942,1
+Lieserl,clumsy,1,vocalisation,0,dog_10,3,F,07/04/2015,Border Collie,06/05/2021,72,no,31.53329881,0,0
+Lieserl,clumsy,2,vocalisation,0,dog_10,3,F,07/04/2015,Border Collie,06/05/2021,72,no,32.26663134,0,0
+Lieserl,clumsy,3,vocalisation,0,dog_10,3,F,07/04/2015,Border Collie,06/05/2021,72,no,36.19996036,0,0
+Lieserl,clumsy,4,vocalisation,0,dog_10,3,F,07/04/2015,Border Collie,06/05/2021,72,no,31.49996551,0,0
+Lieserl,teasing,1,vocalisation,0,dog_10,1,F,07/04/2015,Border Collie,06/05/2021,72,no,32.46666667,0,0
+Lieserl,teasing,2,vocalisation,0,dog_10,1,F,07/04/2015,Border Collie,06/05/2021,72,no,35.53333333,0,0
+Lieserl,teasing,3,vocalisation,0,dog_10,1,F,07/04/2015,Border Collie,06/05/2021,72,no,35.93333333,0,0
+Lieserl,teasing,4,vocalisation,0,dog_10,1,F,07/04/2015,Border Collie,06/05/2021,72,no,29.8,0,0
+Lillybet,blocked,1,vocalisation,0,dog_39,1,F,08/05/2015,Samojede,11/05/2021,72,no,30.96664083,0,0
+Lillybet,blocked,2,vocalisation,0,dog_39,1,F,08/05/2015,Samojede,11/05/2021,72,no,34.29997138,0,0
+Lillybet,blocked,3,vocalisation,0,dog_39,1,F,08/05/2015,Samojede,11/05/2021,72,no,32.99997247,0,0
+Lillybet,blocked,4,vocalisation,0,dog_39,1,F,08/05/2015,Samojede,11/05/2021,72,no,34.89997088,0,0
+Lillybet,clumsy,1,vocalisation,0,dog_39,3,F,08/05/2015,Samojede,11/05/2021,72,no,39.83326069,0,0
+Lillybet,clumsy,2,vocalisation,0,dog_39,3,F,08/05/2015,Samojede,11/05/2021,72,no,33.29993927,0,0
+Lillybet,clumsy,3,vocalisation,0,dog_39,3,F,08/05/2015,Samojede,11/05/2021,72,no,37.6332647,0,0
+Lillybet,clumsy,4,vocalisation,0,dog_39,3,F,08/05/2015,Samojede,11/05/2021,72,no,31.63327565,0,0
+Lillybet,teasing,1,vocalisation,0,dog_39,2,F,08/05/2015,Samojede,11/05/2021,72,yes,33.36660438,0,0
+Lillybet,teasing,2,vocalisation,0,dog_39,2,F,08/05/2015,Samojede,11/05/2021,72,yes,35.46660046,0,0
+Lillybet,teasing,3,vocalisation,0,dog_39,2,F,08/05/2015,Samojede,11/05/2021,72,yes,34.29993597,0,0
+Lillybet,teasing,4,vocalisation,0,dog_39,2,F,08/05/2015,Samojede,11/05/2021,72,yes,31.93327372,0,0
+Loki4,blocked,1,vocalisation,0,dog_40,2,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,37.8,0,0
+Loki4,blocked,2,vocalisation,0,dog_40,2,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,32.9,0,0
+Loki4,blocked,3,vocalisation,0,dog_40,2,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,32.53333333,0,0
+Loki4,blocked,4,vocalisation,0,dog_40,2,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,35.5,0,0
+Loki4,clumsy,1,vocalisation,0,dog_40,3,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,32.93333333,0,0
+Loki4,clumsy,2,vocalisation,0,dog_40,3,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,36.7,0,0
+Loki4,clumsy,3,vocalisation,0,dog_40,3,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,33.26666667,0,0
+Loki4,clumsy,4,vocalisation,0,dog_40,3,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,30.63333333,0,0
+Loki4,teasing,1,vocalisation,0,dog_40,1,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,33.96660118,0,0
+Loki4,teasing,2,vocalisation,0,dog_40,1,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,31.36660619,0,0
+Loki4,teasing,3,vocalisation,0,dog_40,1,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,29.59994293,0,0
+Loki4,teasing,4,vocalisation,0,dog_40,1,M,01/09/2014,"Mix (Cirneco dell’Etna, Portuguese Warren Hound-Portuguese Podengo)",20/05/2021,80,yes,33.89993464,0,0
+Loki5,blocked,1,vocalisation,0,dog_27,1,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,30.866665,0,0
+Loki5,blocked,2,vocalisation,0,dog_27,1,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,31.89999828,0,0
+Loki5,blocked,3,vocalisation,0,dog_27,1,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,32.1333316,0,0
+Loki5,blocked,4,vocalisation,0,dog_27,1,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,31.63333163,0,0
+Loki5,clumsy,1,vocalisation,0,dog_27,3,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,31.86662893,0,0
+Loki5,clumsy,2,vocalisation,0,dog_27,3,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,34.66662561,0,0
+Loki5,clumsy,3,vocalisation,0,dog_27,3,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,34.69995891,0,0
+Loki5,clumsy,4,vocalisation,0,dog_27,3,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,27.6999672,0,0
+Loki5,teasing,1,vocalisation,0,dog_27,2,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,32.99992473,0,0
+Loki5,teasing,2,vocalisation,0,dog_27,2,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,34.99992016,0,0
+Loki5,teasing,3,vocalisation,0,dog_27,2,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,33.43325707,0,0
+Loki5,teasing,4,vocalisation,0,dog_27,2,F,26/06/2019,Golden Retriever,20/05/2021,22,yes,33.0999245,0,0
+Lorin,blocked,1,vocalisation,0,dog_26,3,M,14/01/2016,Mix,17/05/2021,64,no,33.09992819,0,0
+Lorin,blocked,2,vocalisation,0,dog_26,3,M,14/01/2016,Mix,17/05/2021,64,no,33.16659471,0,0
+Lorin,blocked,3,vocalisation,0,dog_26,3,M,14/01/2016,Mix,17/05/2021,64,no,34.69992472,0,0
+Lorin,blocked,4,vocalisation,0,dog_26,3,M,14/01/2016,Mix,17/05/2021,64,no,39.19991496,0,0
+Lorin,clumsy,1,vocalisation,0,dog_26,1,M,14/01/2016,Mix,17/05/2021,64,no,30.33330016,0,0
+Lorin,clumsy,2,vocalisation,0,dog_26,1,M,14/01/2016,Mix,17/05/2021,64,no,36.96662624,0,0
+Lorin,clumsy,3,vocalisation,0,dog_26,1,M,14/01/2016,Mix,17/05/2021,64,no,30.13330038,0,0
+Lorin,clumsy,4,vocalisation,0,dog_26,1,M,14/01/2016,Mix,17/05/2021,64,no,31.46663226,0,0
+Lorin,teasing,1,vocalisation,0,dog_26,2,M,14/01/2016,Mix,17/05/2021,64,no,34.0665869,0,0
+Lorin,teasing,2,vocalisation,0,dog_26,2,M,14/01/2016,Mix,17/05/2021,64,no,32.66659017,0,0
+Lorin,teasing,3,vocalisation,0,dog_26,2,M,14/01/2016,Mix,17/05/2021,64,no,36.46658128,0,0
+Lorin,teasing,4,vocalisation,0,dog_26,2,M,14/01/2016,Mix,17/05/2021,64,no,34.69991875,0,0
+Lottie2,blocked,1,vocalisation,0,dog_08,3,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,33.96666667,0,0
+Lottie2,blocked,2,vocalisation,0,dog_08,3,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,31.7,0,0
+Lottie2,blocked,3,vocalisation,0,dog_08,3,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,33.5,0,0
+Lottie2,blocked,4,vocalisation,0,dog_08,3,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,31.33333333,0,0
+Lottie2,clumsy,1,vocalisation,0,dog_08,1,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,34.83329182,0,0
+Lottie2,clumsy,2,vocalisation,0,dog_08,1,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,31.83329539,0,0
+Lottie2,clumsy,3,vocalisation,0,dog_08,1,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,29.83329778,0,0
+Lottie2,clumsy,4,vocalisation,0,dog_08,1,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,28.49996603,0,0
+Lottie2,teasing,1,vocalisation,0,dog_08,2,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,31.16666667,0,0
+Lottie2,teasing,2,vocalisation,0,dog_08,2,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,28.13333333,0,0
+Lottie2,teasing,3,vocalisation,0,dog_08,2,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,30.36666667,0,0
+Lottie2,teasing,4,vocalisation,0,dog_08,2,F,17/05/2018,Parson Russell Terrier,06/05/2021,35,no,35.4,0,0
+Lucifer,blocked,1,vocalisation,0,dog_46,2,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,30.69996794,0,0
+Lucifer,blocked,2,vocalisation,0,dog_46,2,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,34.63329717,0,0
+Lucifer,blocked,3,vocalisation,0,dog_46,2,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,35.49996293,0,0
+Lucifer,blocked,4,vocalisation,0,dog_46,2,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,31.39996721,0,0
+Lucifer,clumsy,1,vocalisation,0,dog_46,3,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,33.59996974,0,0
+Lucifer,clumsy,2,vocalisation,0,dog_46,3,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,32.199971,0,0
+Lucifer,clumsy,3,vocalisation,0,dog_46,3,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,32.199971,0,0
+Lucifer,clumsy,4,vocalisation,0,dog_46,3,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,34.66663545,0,0
+Lucifer,teasing,1,vocalisation,0,dog_46,1,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,31.59994087,0,0
+Lucifer,teasing,2,vocalisation,0,dog_46,1,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,31.93327358,0,0
+Lucifer,teasing,3,vocalisation,0,dog_46,1,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,31.96660685,0,0
+Lucifer,teasing,4,vocalisation,0,dog_46,1,M,20/05/2018,Miniature Pinscher,20/05/2021,36,yes,32.23327302,0,0
+Luna22,blocked,1,vocalisation,0,dog_44,3,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,32.09999908,0,0
+Luna22,blocked,2,vocalisation,0,dog_44,3,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,34.799999,0,0
+Luna22,blocked,3,vocalisation,0,dog_44,3,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,34.53333234,0,0
+Luna22,blocked,4,vocalisation,0,dog_44,3,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,33.43333237,0,0
+Luna22,clumsy,1,vocalisation,0,dog_44,1,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,32.66666667,0,0
+Luna22,clumsy,2,vocalisation,0,dog_44,1,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,34.03333333,0,0
+Luna22,clumsy,3,vocalisation,0,dog_44,1,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,25.4,0,0
+Luna22,clumsy,4,vocalisation,0,dog_44,1,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,31.76666667,0,0
+Luna22,teasing,1,vocalisation,0,dog_44,2,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,29.89999815,0,0
+Luna22,teasing,2,vocalisation,0,dog_44,2,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,32.53333132,0,0
+Luna22,teasing,3,vocalisation,0,dog_44,2,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,30.79999809,0,0
+Luna22,teasing,4,vocalisation,0,dog_44,2,F,28/08/2015,"Mix (Border Collie, Border Collie x White Swiss Shepherd)",11/05/2021,68,no,30.36666479,0,0
+Luna31,blocked,1,vocalisation,0,dog_23,2,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,29.63326349,0,0
+Luna31,blocked,2,vocalisation,0,dog_23,2,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,32.19992411,0,0
+Luna31,blocked,3,vocalisation,0,dog_23,2,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,31.63325878,0,0
+Luna31,blocked,4,vocalisation,0,dog_23,2,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,31.16659321,0,0
+Luna31,clumsy,1,vocalisation,0,dog_23,1,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,38.19991849,0,0
+Luna31,clumsy,2,vocalisation,0,dog_23,1,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,36.19992276,0,0
+Luna31,clumsy,3,vocalisation,0,dog_23,1,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,30.83326754,0,0
+Luna31,clumsy,4,vocalisation,0,dog_23,1,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,30.73326776,0,0
+Luna31,teasing,1,vocalisation,0,dog_23,3,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,31.49993332,0,0
+Luna31,teasing,2,vocalisation,0,dog_23,3,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,30.63326849,0,0
+Luna31,teasing,3,vocalisation,0,dog_23,3,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,31.49993332,0,0
+Luna31,teasing,4,vocalisation,0,dog_23,3,F,26/04/2009,Labrador Retriever,13/05/2021,144,no,31.86659921,0,0
+Manni2,blocked,1,vocalisation,0,dog_30,1,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,33.06666667,0,0
+Manni2,blocked,2,vocalisation,0,dog_30,1,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,30.26666667,0,0
+Manni2,blocked,3,vocalisation,0,dog_30,1,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,31.46666667,0,0
+Manni2,blocked,4,vocalisation,0,dog_30,1,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,32.4,0,0
+Manni2,clumsy,1,vocalisation,0,dog_30,2,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,32.53329784,0,0
+Manni2,clumsy,2,vocalisation,0,dog_30,2,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,32.53329784,0,0
+Manni2,clumsy,3,vocalisation,0,dog_30,2,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,31.06663278,0,0
+Manni2,clumsy,4,vocalisation,0,dog_30,2,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,36.43329359,0,0
+Manni2,teasing,1,vocalisation,0,dog_30,3,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,31.59994898,0,0
+Manni2,teasing,2,vocalisation,0,dog_30,3,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,30.2666178,0,1
+Manni2,teasing,3,vocalisation,0,dog_30,3,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,30.56661731,0,0
+Manni2,teasing,4,vocalisation,0,dog_30,3,M,31/05/2016,Pyrenäen Sheep dog-smooth faced,19/05/2021,59,yes,32.13328145,0,0
+Mika2,blocked,1,vocalisation,0,dog_34,2,F,07/01/2014,Whippet ,19/05/2021,88,yes,32.89992538,0,0
+Mika2,blocked,2,vocalisation,0,dog_34,2,F,07/01/2014,Whippet ,19/05/2021,88,yes,33.39992424,0,0
+Mika2,blocked,3,vocalisation,0,dog_34,2,F,07/01/2014,Whippet ,19/05/2021,88,yes,31.9332609,0,0
+Mika2,blocked,4,vocalisation,0,dog_34,2,F,07/01/2014,Whippet ,19/05/2021,88,yes,30.8332634,0,0
+Mika2,clumsy,1,vocalisation,0,dog_34,3,F,07/01/2014,Whippet ,19/05/2021,88,yes,29.99999809,0,0
+Mika2,clumsy,2,vocalisation,0,dog_34,3,F,07/01/2014,Whippet ,19/05/2021,88,yes,33.5333312,0,0
+Mika2,clumsy,3,vocalisation,0,dog_34,3,F,07/01/2014,Whippet ,19/05/2021,88,yes,36.03333104,0,0
+Mika2,clumsy,4,vocalisation,0,dog_34,3,F,07/01/2014,Whippet ,19/05/2021,88,yes,32.86666457,0,1
+Mika2,teasing,1,vocalisation,0,dog_34,1,F,07/01/2014,Whippet ,19/05/2021,88,yes,31.96660261,0,0
+Mika2,teasing,2,vocalisation,0,dog_34,1,F,07/01/2014,Whippet ,19/05/2021,88,yes,34.69993047,0,0
+Mika2,teasing,3,vocalisation,0,dog_34,1,F,07/01/2014,Whippet ,19/05/2021,88,yes,32.93326734,0,0
+Mika2,teasing,4,vocalisation,0,dog_34,1,F,07/01/2014,Whippet ,19/05/2021,88,yes,31.06660442,0,0
+Mogli5,blocked,1,vocalisation,0,dog_41,2,M,12/04/2020,Border Collie,21/05/2021,13,yes,30.1,0,0
+Mogli5,blocked,2,vocalisation,0,dog_41,2,M,12/04/2020,Border Collie,21/05/2021,13,yes,31.93333333,0,0
+Mogli5,blocked,3,vocalisation,0,dog_41,2,M,12/04/2020,Border Collie,21/05/2021,13,yes,29.36666667,0,0
+Mogli5,blocked,4,vocalisation,0,dog_41,2,M,12/04/2020,Border Collie,21/05/2021,13,yes,31.33333333,0,0
+Mogli5,clumsy,1,vocalisation,0,dog_41,1,M,12/04/2020,Border Collie,21/05/2021,13,yes,33.2666646,0,0
+Mogli5,clumsy,2,vocalisation,0,dog_41,1,M,12/04/2020,Border Collie,21/05/2021,13,yes,30.69999809,0,0
+Mogli5,clumsy,3,vocalisation,0,dog_41,1,M,12/04/2020,Border Collie,21/05/2021,13,yes,31.29999805,0,0
+Mogli5,clumsy,4,vocalisation,0,dog_41,1,M,12/04/2020,Border Collie,21/05/2021,13,yes,33.06666461,0,0
+Mogli5,teasing,1,vocalisation,0,dog_41,3,M,12/04/2020,Border Collie,21/05/2021,13,yes,31.46666667,0,0
+Mogli5,teasing,2,vocalisation,0,dog_41,3,M,12/04/2020,Border Collie,21/05/2021,13,yes,30.26666667,0,0
+Mogli5,teasing,3,vocalisation,1.8,dog_41,3,M,12/04/2020,Border Collie,21/05/2021,13,yes,31.43333333,0.057264051,1
+Mogli5,teasing,4,vocalisation,0,dog_41,3,M,12/04/2020,Border Collie,21/05/2021,13,yes,30.8,0,0
+Nala10,blocked,1,vocalisation,0,dog_45,1,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,33.19996311,0,0
+Nala10,blocked,2,vocalisation,0,dog_45,1,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,31.89996456,0,1
+Nala10,blocked,3,vocalisation,0,dog_45,1,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,31.89996456,0,0
+Nala10,blocked,4,vocalisation,0,dog_45,1,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,28.69996811,0,0
+Nala10,clumsy,1,vocalisation,0,dog_45,3,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,33.89996239,0,0
+Nala10,clumsy,2,vocalisation,0,dog_45,3,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,33.96662899,0,0
+Nala10,clumsy,3,vocalisation,0,dog_45,3,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,32.8999635,0,0
+Nala10,clumsy,4,vocalisation,0,dog_45,3,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,32.79996361,0,0
+Nala10,teasing,1,vocalisation,0,dog_45,2,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,35.16658789,0,0
+Nala10,teasing,2,vocalisation,0,dog_45,2,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,31.9332618,0,0
+Nala10,teasing,3,vocalisation,0,dog_45,2,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,31.06659707,0,0
+Nala10,teasing,4,vocalisation,0,dog_45,2,F,16/05/2010,Golden Retriever,20/05/2021,132,yes,31.3665964,0,0
+Nikki,blocked,1,vocalisation,0,dog_22,2,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,41.56660318,0,0
+Nikki,blocked,2,vocalisation,0,dog_22,2,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,31.26661891,0,0
+Nikki,blocked,3,vocalisation,0,dog_22,2,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,41.63326974,0,0
+Nikki,blocked,4,vocalisation,0,dog_22,2,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,46.03326302,0,0
+Nikki,clumsy,1,vocalisation,0,dog_22,3,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,35.46664451,0,0
+Nikki,clumsy,2,vocalisation,0,dog_22,3,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,33.53331239,0,0
+Nikki,clumsy,3,vocalisation,0,dog_22,3,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,35.83331095,0,0
+Nikki,clumsy,4,vocalisation,0,dog_22,3,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,34.59997839,0,0
+Nikki,teasing,1,vocalisation,0,dog_22,1,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,29.26663869,0,0
+Nikki,teasing,2,vocalisation,0,dog_22,1,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,31.8666362,0,0
+Nikki,teasing,3,vocalisation,0,dog_22,1,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,32.29996912,0,0
+Nikki,teasing,4,vocalisation,0,dog_22,1,F,10/04/2016,Bernese Mountain Dog,13/05/2021,61,no,31.49996989,0,0
+Olivy,blocked,1,vocalisation,0,dog_31,3,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,31.26666482,0,0
+Olivy,blocked,2,vocalisation,0,dog_31,3,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,30.53333153,0,0
+Olivy,blocked,3,vocalisation,0,dog_31,3,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,29.56666492,0,0
+Olivy,blocked,4,vocalisation,0,dog_31,3,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,31.16666483,0,0
+Olivy,clumsy,1,vocalisation,0,dog_31,2,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,38.93333333,0,0
+Olivy,clumsy,2,vocalisation,0,dog_31,2,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,29.66666667,0,0
+Olivy,clumsy,3,vocalisation,0,dog_31,2,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,32.2,0,0
+Olivy,clumsy,4,vocalisation,0,dog_31,2,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,32.5,0,0
+Olivy,teasing,1,vocalisation,0,dog_31,1,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,29.59999819,0,0
+Olivy,teasing,2,vocalisation,0,dog_31,1,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,31.86666472,0,0
+Olivy,teasing,3,vocalisation,0,dog_31,1,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,30.19999815,0,0
+Olivy,teasing,4,vocalisation,0,dog_31,1,F,14/04/2019,Poodle (Standard/Royal),20/05/2021,25,yes,32.29999802,0,0
+Pebbles3,blocked,1,vocalisation,0,dog_25,3,F,05/01/2019,French Bulldog,07/05/2021,28,no,43.13333125,0,0
+Pebbles3,blocked,2,vocalisation,0,dog_25,3,F,05/01/2019,French Bulldog,07/05/2021,28,no,35.16666496,0,0
+Pebbles3,blocked,3,vocalisation,0,dog_25,3,F,05/01/2019,French Bulldog,07/05/2021,28,no,37.06666487,0,0
+Pebbles3,blocked,4,vocalisation,0,dog_25,3,F,05/01/2019,French Bulldog,07/05/2021,28,no,32.53333176,0,0
+Pebbles3,clumsy,1,vocalisation,0,dog_25,2,F,05/01/2019,French Bulldog,07/05/2021,28,no,36.6,0,0
+Pebbles3,clumsy,2,vocalisation,0,dog_25,2,F,05/01/2019,French Bulldog,07/05/2021,28,no,32.83333333,0,0
+Pebbles3,clumsy,3,vocalisation,0,dog_25,2,F,05/01/2019,French Bulldog,07/05/2021,28,no,36.4,0,0
+Pebbles3,clumsy,4,vocalisation,0,dog_25,2,F,05/01/2019,French Bulldog,07/05/2021,28,no,35.06666667,0,0
+Pebbles3,teasing,1,vocalisation,0,dog_25,1,F,05/01/2019,French Bulldog,07/05/2021,28,no,31.83333172,0,0
+Pebbles3,teasing,2,vocalisation,0,dog_25,1,F,05/01/2019,French Bulldog,07/05/2021,28,no,33.5999983,0,0
+Pebbles3,teasing,3,vocalisation,0,dog_25,1,F,05/01/2019,French Bulldog,07/05/2021,28,no,28.36666523,0,0
+Pebbles3,teasing,4,vocalisation,0,dog_25,1,F,05/01/2019,French Bulldog,07/05/2021,28,no,32.83333167,0,0
+Roxy5,blocked,1,vocalisation,6.266659836,dog_06,1,F,22/04/2015,Irish Red Setter,04/05/2021,72,at 3rd trial,29.49996785,0.212429378,1
+Roxy5,blocked,2,vocalisation,11.76665384,dog_06,1,F,22/04/2015,Irish Red Setter,04/05/2021,72,at 3rd trial,28.9666351,0.406214039,1
+Roxy5,blocked,3,vocalisation,0,dog_06,1,F,22/04/2015,Irish Red Setter,04/05/2021,72,at 3rd trial,28.56663553,0,0
+Roxy5,blocked,4,vocalisation,0,dog_06,1,F,22/04/2015,Irish Red Setter,04/05/2021,72,at 3rd trial,24.06664044,0,0
+Roxy5,clumsy,1,vocalisation,0,dog_06,2,F,22/04/2015,Irish Red Setter,04/05/2021,72,yes,34.63329921,0,0
+Roxy5,clumsy,2,vocalisation,0,dog_06,2,F,22/04/2015,Irish Red Setter,04/05/2021,72,yes,34.46663271,0,0
+Roxy5,clumsy,3,vocalisation,0,dog_06,2,F,22/04/2015,Irish Red Setter,04/05/2021,72,yes,32.99996749,0,0
+Roxy5,clumsy,4,vocalisation,0,dog_06,2,F,22/04/2015,Irish Red Setter,04/05/2021,72,yes,35.06663212,0,0
+Roxy5,teasing,1,vocalisation,0,dog_06,3,F,22/04/2015,Irish Red Setter,04/05/2021,72,no,34.83325878,0,0
+Roxy5,teasing,2,vocalisation,0,dog_06,3,F,22/04/2015,Irish Red Setter,04/05/2021,72,no,29.26660402,0,0
+Roxy5,teasing,3,vocalisation,0,dog_06,3,F,22/04/2015,Irish Red Setter,04/05/2021,72,no,36.03325621,0,0
+Roxy5,teasing,4,vocalisation,0,dog_06,3,F,22/04/2015,Irish Red Setter,04/05/2021,72,no,29.93326926,0,0
+Ruby8,blocked,1,vocalisation,0,dog_28,2,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,38.3999133,0,0
+Ruby8,blocked,2,vocalisation,0,dog_28,2,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,32.36659359,0,0
+Ruby8,blocked,3,vocalisation,0,dog_28,2,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,36.99991646,0,0
+Ruby8,blocked,4,vocalisation,0,dog_28,2,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,35.23325378,0,0
+Ruby8,clumsy,1,vocalisation,0,dog_28,3,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,32.59996603,0,0
+Ruby8,clumsy,2,vocalisation,0,dog_28,3,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,32.69996592,0,0
+Ruby8,clumsy,3,vocalisation,0,dog_28,3,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,34.79996374,0,0
+Ruby8,clumsy,4,vocalisation,0,dog_28,3,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,34.86663033,0,0
+Ruby8,teasing,1,vocalisation,0,dog_28,1,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,34.23333333,0,0
+Ruby8,teasing,2,vocalisation,0,dog_28,1,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,33.13333333,0,0
+Ruby8,teasing,3,vocalisation,0,dog_28,1,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,33.26666667,0,0
+Ruby8,teasing,4,vocalisation,0,dog_28,1,F,20/06/2009,Jack Russell Terrier,17/05/2021,142,no,37.33333333,0,0
+Thaya,blocked,1,vocalisation,0,dog_35,2,F,17/12/2010,Whippet,19/05/2021,125,yes,32.83325619,0,0
+Thaya,blocked,2,vocalisation,0,dog_35,2,F,17/12/2010,Whippet,19/05/2021,125,yes,33.29992176,0,0
+Thaya,blocked,3,vocalisation,0,dog_35,2,F,17/12/2010,Whippet,19/05/2021,125,yes,35.63324961,0,0
+Thaya,blocked,4,vocalisation,0,dog_35,2,F,17/12/2010,Whippet,19/05/2021,125,yes,31.83325854,0,0
+Thaya,clumsy,1,vocalisation,0,dog_35,1,F,17/12/2010,Whippet,19/05/2021,125,yes,33.93329773,0,0
+Thaya,clumsy,2,vocalisation,0,dog_35,1,F,17/12/2010,Whippet,19/05/2021,125,yes,34.93329668,0,0
+Thaya,clumsy,3,vocalisation,0,dog_35,1,F,17/12/2010,Whippet,19/05/2021,125,yes,36.36662851,0,0
+Thaya,clumsy,4,vocalisation,0,dog_35,1,F,17/12/2010,Whippet,19/05/2021,125,yes,35.73329584,0,1
+Thaya,teasing,1,vocalisation,0,dog_35,3,F,17/12/2010,Whippet,19/05/2021,125,yes,32.13333134,0,1
+Thaya,teasing,2,vocalisation,0,dog_35,3,F,17/12/2010,Whippet,19/05/2021,125,yes,32.99999795,0,0
+Thaya,teasing,3,vocalisation,0,dog_35,3,F,17/12/2010,Whippet,19/05/2021,125,yes,34.09999789,0,1
+Thaya,teasing,4,vocalisation,0,dog_35,3,F,17/12/2010,Whippet,19/05/2021,125,yes,30.0666648,0,1
+Ultimo,blocked,1,vocalisation,0,dog_19,3,M,29/10/2009,Border Collie,11/05/2021,138,"yes, 1st 3rd 4th trial",32.03329974,0,0
+Ultimo,blocked,2,vocalisation,2.566663976,dog_19,3,M,29/10/2009,Border Collie,11/05/2021,138,"yes, 1st 3rd 4th trial",33.06663199,0.077620968,1
+Ultimo,blocked,3,vocalisation,0,dog_19,3,M,29/10/2009,Border Collie,11/05/2021,138,"yes, 1st 3rd 4th trial",33.56663147,0,0
+Ultimo,blocked,4,vocalisation,0,dog_19,3,M,29/10/2009,Border Collie,11/05/2021,138,"yes, 1st 3rd 4th trial",32.23329953,0,0
+Ultimo,clumsy,1,vocalisation,0,dog_19,2,M,29/10/2009,Border Collie,11/05/2021,138,no,34.26662923,0,0
+Ultimo,clumsy,2,vocalisation,0,dog_19,2,M,29/10/2009,Border Collie,11/05/2021,138,no,34.09996274,0,0
+Ultimo,clumsy,3,vocalisation,0,dog_19,2,M,29/10/2009,Border Collie,11/05/2021,138,no,34.5666289,0,0
+Ultimo,clumsy,4,vocalisation,0,dog_19,2,M,29/10/2009,Border Collie,11/05/2021,138,no,33.33329692,0,0
+Ultimo,teasing,1,vocalisation,0,dog_19,1,M,29/10/2009,Border Collie,11/05/2021,138,no,31.43333333,0,0
+Ultimo,teasing,2,vocalisation,0,dog_19,1,M,29/10/2009,Border Collie,11/05/2021,138,no,34.46666667,0,0
+Ultimo,teasing,3,vocalisation,0,dog_19,1,M,29/10/2009,Border Collie,11/05/2021,138,no,33.76666667,0,0
+Ultimo,teasing,4,vocalisation,0,dog_19,1,M,29/10/2009,Border Collie,11/05/2021,138,no,32.83333333,0,0
