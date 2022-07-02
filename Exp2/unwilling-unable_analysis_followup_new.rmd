@@ -1,0 +1,592 @@
+---
+title: "Unwilling-unable analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(lme4)
+library(summarytools)
+library(glmmTMB)
+library(car)
+
+source("./functions/diagnostic_fcns.r")
+source("./functions/glmm_stability.r")
+source("./functions/boot_glmm.r")
+source("./functions/glmmTMB_stability.r")
+source("./functions/drop1_para_glmmtmb.r")
+source("./functions/extract_ranef_gmmTMB.r")
+
+
+#load("unwilling_unable_analysis_follow_up.RData")
+```
+
+```{r}
+demo.data <- read.csv(file = "data/unwilling_unable_followup1_demodata.csv")
+
+view(dfSummary(demo.data))
+```
+Load data
+```{r}
+xdata <- read.csv(file = "data/scoringproject_51_unwilling_unable_intoscience2021.csv")%>%
+  mutate(Subject=fct_recode(as.factor(Subject), Bärli="BÃ¤rli", Ilvi="Ilvy"))
+
+view(dfSummary(xdata))
+```
+
+aggregating data per trial
+
+```{r}
+levels(as.factor(xdata$Value))
+levels(as.factor(xdata$Subject))
+agg.data<-xdata %>%
+  droplevels()%>%
+  mutate(Value=fct_recode(as.factor(Value), "rest"="sitting_down", "rest"="laying_down"))%>%
+  group_by(Subject, trial, Behaviour, Value)%>%
+  summarise(sum_duration=sum(duration))%>%
+  ungroup()%>%
+  droplevels()%>%
+  complete(Subject, trial, Value, fill=list(sum.duration=0))%>% #fill in 0s
+  inner_join(demo.data)%>%
+  replace_na(list(sum_duration=0))%>%
+    mutate(condition= ifelse((trial>=1 & trial<=4)|(trial>=9 & trial<=12), first_condition, ifelse((trial>=5 & trial<=8)|(trial>=13 & trial<=16), second_condition, "")),
+           block= as.numeric(ifelse((trial>=1 & trial<=4), 1, ifelse((trial>=5 & trial<=8), 2, ifelse((trial>=8 & trial<=12), 3, ifelse((trial>=13 & trial<=16), 4,"" ))))))%>%
+  rename(subject=subj.id)
+
+view(dfSummary(agg.data))
+
+write.csv(agg.data, file = "data/unwilling_unable_followup_trial_level_data.csv")
+
+table(agg.data$Subject, agg.data$trial)
+```
+
+do trial durations vary across conditions?
+```{r}
+trial.duration<-agg.data%>%
+  filter(Behaviour=="trial")%>%
+  rename(trial_duration=sum_duration)%>%
+  select(-Behaviour, -Value)
+
+hist(trial.duration$trial_duration)
+
+trial.duration%>%
+  group_by(condition)%>%
+  summarise(mean=mean(trial_duration), median=median(trial_duration), min=min(trial_duration), max=max(trial_duration))
+
+
+ggplot(data=trial.duration, aes(x=condition, y=trial_duration))+
+  geom_boxplot()+
+  geom_point()
+
+```
+
+
+```{r}
+
+prop.data<-agg.data%>%
+     filter(Value=="front_down" | Value=="lateral_approach"|  Value=="pawing"| Value=="rest"| Value=="walk_away"|Value=="unwilling"| Value=="unable")%>%
+  full_join(trial.duration)%>%
+  mutate(prop.duration=sum_duration/trial_duration)
+
+ggplot(data=prop.data, aes(x=condition, y=prop.duration))+
+  geom_point(alpha=.1)+
+  facet_wrap(~Value)
+
+```
+
+## Walk away response
+
+```{r}
+model.data.away<-prop.data%>%
+    filter(Value=="walk_away")
+
+model.data.away$z.trial<-scale(model.data.away$trial, center = TRUE, scale=TRUE)
+model.data.away$z.order<-scale(model.data.away$block, center = TRUE, scale=TRUE)
+model.data.away$z.age<-scale(model.data.away$age, center = TRUE, scale=TRUE)
+model.data.away$condition<- as.factor(model.data.away$condition)
+model.data.away$condition.c1=as.vector(scale(as.numeric(model.data.away$condition==levels(as.factor(model.data.away$condition))[2]), center=TRUE, scale= FALSE))
+
+
+
+model.data.away$prop.duration.scaled <- (model.data.away$prop.duration*(length(model.data.away$prop.duration) - 1) + 0.5)/length(model.data.away$prop.duration)#transform DV to exclude 0 and 1s
+min(model.data.away$prop.duration.scaled)
+```
+
+
+```{r}
+library(glmmTMB)
+m1.away<-glmmTMB(prop.duration.scaled ~ condition + z.trial + first_condition + z.age + sex+(1+condition.c1+z.trial|subject), family=beta_family, data=model.data.away,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+#convergence issues in drop1
+
+#fit the model without the correlations between random intercept and random slopes
+m1.away<-glmmTMB(prop.duration.scaled ~ condition + z.trial + first_condition + z.age + sex+(1|subject)+(0+condition.c1|subject)+(0+z.trial|subject), family=beta_family, data=model.data.away,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+
+overdisp.test(m1.away)
+
+```
+```{r}
+drop1_m1<-drop1(m1.away, test="Chisq")
+```
+
+```{r}
+summary(m1.away)
+```
+model stability
+```{r}
+
+m1.stab=glmmTMB.stab(model.res=m1.away, para=F, data=model.data.away)
+
+m1.stab$summary
+
+m.stab.plot(round(m1.stab$summary[, -1], 3))
+```
+
+
+
+```{r}
+library(car)
+xx=lm(prop.duration.scaled ~ condition + z.trial + first_condition + z.age + sex, data=model.data.away)
+vif(xx)
+```
+
+
+```{r}
+boot.mm1.away=boot.glmmtmb(m1.away, 
+nboots=1000, para=T, n.cores="all-1", resol=1000, level=0.95, data=model.data.away)
+
+mm1.away_boot_ci<-boot.mm1.away$ci.estimates
+
+```
+
+
+
+### output table
+
+```{r}
+
+model_table_away<- bind_cols(as.data.frame(summary(m1.away)$coefficients$cond),
+                             boot.mm1.away$ci.estimates$fe[1:6,],
+                             drop1_m1) %>%
+                             select(Estimate, SE = `Std. Error`,LowerCI = X2.5., UpperCI = X97.5., z=`z value`, p=`Pr(>|z|)`,  Chi2 = LRT, df = Df, p_LRT = `Pr(>Chi)`) %>%
+  mutate(across(.cols = c(p, p_LRT), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z, Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+#  mutate(across(Chi2:p_LRT, ~replace_na(.x, "")))%>%
+mutate(p_LRT=replace(p_LRT, p_LRT==0.000, "<0.001"))%>%
+mutate(p=replace(p, p==0.000, "<0.001"))
+
+write.csv(model_table_away, file = "saves/m1_results_prop_away.csv")
+```
+
+
+### Sitting / lying down analysis
+
+```{r}
+model.data.rest<-prop.data%>%
+    filter(Value=="rest")
+
+model.data.rest$z.trial<-scale(model.data.rest$trial, center = TRUE, scale=TRUE)
+model.data.rest$z.order<-scale(model.data.rest$block, center = TRUE, scale=TRUE)
+model.data.rest$z.age<-scale(model.data.rest$age, center = TRUE, scale=TRUE)
+model.data.rest$condition<- as.factor(model.data.rest$condition)
+model.data.rest$condition.c1=as.vector(scale(as.numeric(model.data.rest$condition==levels(as.factor(model.data.rest$condition))[2]), center=TRUE, scale= FALSE))
+model.data.rest$sex<- as.factor(model.data.rest$sex)
+
+
+model.data.rest$prop.duration.scaled <- (model.data.rest$prop.duration*(length(model.data.rest$prop.duration) - 1) + 0.5)/length(model.data.rest$prop.duration)#transform DV to exclude 0 and 1s
+max(model.data.rest$prop.duration.scaled)
+```
+
+
+```{r}
+m1.rest<-glmmTMB(prop.duration.scaled ~ condition + z.trial + first_condition + z.age + sex+(1+condition.c1+z.trial|subject), family=beta_family, data=model.data.rest,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+#convergence issues
+
+#fit the model without the correlations between random intercept and random slopes
+m1.rest<-glmmTMB(prop.duration.scaled ~ condition + z.trial + first_condition + first_condition + z.age + sex+(1|subject)+(0+condition.c1|subject)+(0+z.trial|subject), family=beta_family, data=model.data.rest,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+
+overdisp.test(m1.rest)
+
+```
+model stability
+```{r}
+
+m1.rest.stab=glmmTMB.stab(model.res=m1.rest, para=F, data=model.data.rest)
+
+m1.rest.stab$summary
+
+m.stab.plot(round(m1.rest.stab$summary[, -1], 3))
+```
+
+```{r}
+drop1_m1.rest<-drop1(m1.rest, test="Chisq")
+```
+
+```{r}
+summary(m1.rest)
+```
+
+```{r}
+library(car)
+xx=lm(prop.duration.scaled ~ condition + z.trial + first_condition + z.age + sex, data=model.data.rest)
+vif(xx)
+```
+
+
+```{r}
+
+boot.mm1.rest=boot.glmmtmb(m1.rest, 
+nboots=1000, para=T, n.cores="all-1", resol=1000, level=0.95, data=model.data.away)
+
+mm1.away_boot_ci<-boot.mm1.away$ci.estimates
+```
+
+
+
+### output table
+
+```{r}
+
+model_table_rest<- bind_cols(as.data.frame(summary(m1.rest)$coefficients$cond),
+                             boot.mm1.rest$ci.estimates$fe[1:6,],
+                             drop1_m1.rest) %>%
+                             select(Estimate, SE = `Std. Error`,LowerCI = X2.5., UpperCI = X97.5., z=`z value`, p=`Pr(>|z|)`,  Chi2 = LRT, df = Df, p_LRT = `Pr(>Chi)`) %>%
+  mutate(across(.cols = c(p, p_LRT), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z, Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+#  mutate(across(Chi2:p_LRT, ~replace_na(.x, "")))%>%
+mutate(p_LRT=replace(p_LRT, p_LRT==0.000, "<0.001"))%>%
+mutate(p=replace(p, p==0.000, "<0.001"))
+
+write.csv(model_table_rest, file = "saves/m1_results_prop_rest.csv")
+```
+
+
+
+
+
+### Lateral approach
+
+
+```{r}
+model.data.lateral_approach<-prop.data%>%
+    filter(Value=="lateral_approach")
+
+model.data.lateral_approach$z.trial<-scale(model.data.lateral_approach$trial, center = TRUE, scale=TRUE)
+model.data.lateral_approach$z.order<-scale(model.data.lateral_approach$block, center = TRUE, scale=TRUE)
+model.data.lateral_approach$z.age<-scale(model.data.lateral_approach$age, center = TRUE, scale=TRUE)
+model.data.lateral_approach$condition<- as.factor(model.data.lateral_approach$condition)
+model.data.lateral_approach$condition.c1=as.vector(scale(as.numeric(model.data.lateral_approach$condition==levels(as.factor(model.data.lateral_approach$condition))[2]), center=TRUE, scale= FALSE))
+
+model.data.lateral_approach$sex<- as.factor(model.data.lateral_approach$sex)
+
+
+model.data.lateral_approach$prop.duration.scaled <- (model.data.lateral_approach$prop.duration*(length(model.data.lateral_approach$prop.duration) - 1) + 0.5)/length(model.data.lateral_approach$prop.duration)#transform DV to exclude 0 and 1s
+max(model.data.lateral_approach$prop.duration.scaled)
+```
+
+
+```{r}
+library(glmmTMB)
+m1.lateral.approach<-glmmTMB(prop.duration.scaled ~ condition + z.trial + first_condition + z.age + sex+(1+condition.c1+z.trial|subject), family=beta_family, data=model.data.lateral_approach,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+#convergence issues
+
+#fit the model without the correlations between random intercept and random slopes
+m1.lateral.approach<-glmmTMB(prop.duration.scaled ~ condition + z.trial + first_condition + z.age + sex+(1|subject)+(0+condition.c1|subject)+(0+z.trial|subject), family=beta_family, data=model.data.lateral_approach,  control=glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000)))
+
+overdisp.test(m1.lateral.approach)
+
+```
+```{r}
+drop1_m1.lateral_approach<-drop1(m1.lateral.approach, test="Chisq")
+```
+
+```{r}
+summary(m1.lateral.approach)
+```
+
+
+model stability
+```{r}
+
+m1.stab.lateral.approach=glmmTMB.stab(model.res=m1.lateral.approach, para=F, data=model.data.lateral_approach)
+
+m1.stab.lateral.approach$summary
+
+m.stab.plot(round(m1.stab.lateral.approach$summary[, -1], 3))
+```
+
+
+
+```{r}
+library(car)
+xx=lm(prop.duration.scaled ~ condition + z.trial + first_condition + z.age + sex, data=model.data.lateral_approach)
+vif(xx)
+```
+
+
+```{r}
+boot.m1.lateral.approach=boot.glmmtmb(m1.lateral.approach, 
+nboots=1000, para=T, n.cores="all-1", resol=1000, level=0.95, data=model.data.away)
+
+boot.m1.lateral.approach_ci<-boot.m1.lateral.approach$ci.estimates
+```
+
+
+
+### output table
+
+```{r}
+
+model_table_lateral_approach<- bind_cols(as.data.frame(summary(m1.lateral.approach)$coefficients$cond),
+                             boot.m1.lateral.approach$ci.estimates$fe[1:6,],
+                             drop1_m1.lateral_approach) %>%
+                             select(Estimate, SE = `Std. Error`,LowerCI = X2.5., UpperCI = X97.5., z=`z value`, p=`Pr(>|z|)`,  Chi2 = LRT, df = Df, p_LRT = `Pr(>Chi)`) %>%
+  mutate(across(.cols = c(p, p_LRT), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z, Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+ # mutate(across(Chi2:p_LRT, ~replace_na(.x, "")))%>%
+mutate(p_LRT=replace(p_LRT, p_LRT==0.000, "<0.001"))%>%
+mutate(p=replace(p, p==0.000, "<0.001"))
+
+write.csv(model_table_lateral_approach, file = "saves/m1_results_lateral_approach.csv")
+```
+
+
+
+
+
+#### Plots
+
+```{r}
+
+walk.away.data<-prop.data%>%
+  filter(Value=="walk_away")%>% 
+  mutate(condition=fct_recode(as.factor(condition), "clumsy"="unable", "teasing"="unwilling"))%>%
+  group_by(subject, condition)%>%
+  summarise(mean_prop_away_time=mean(prop.duration))
+
+walk.away.data$condition<-fct_relevel(as.factor(walk.away.data$condition), "teasing", "clumsy")
+walk.away.data$condition2 <- jitter(as.numeric(as.factor(walk.away.data$condition), amount = .0001))
+
+library(gghalves)
+library(ggsignif)
+
+
+away_plot <- ggplot(data = walk.away.data, aes(x = condition, y= mean_prop_away_time, group=condition)) +
+      geom_line(aes(x = condition2, group = subject), color = "darkgray", lty = 1, alpha = .3) +
+  
+  geom_point(data = walk.away.data %>% filter(condition == "clumsy"), aes(x = condition2), color = "darkorange", size = 1.5, alpha = .5, ) +
+    geom_point(data = walk.away.data %>% filter(condition == "teasing"), aes(x = condition2), color = "darkgreen", size = 1.5, alpha = .5, ) +
+
+   geom_half_boxplot(
+     data = walk.away.data %>% filter(condition == "clumsy"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 0.8), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkorange', alpha = .5) +
+  
+     geom_half_boxplot(
+     data = walk.away.data %>% filter(condition == "teasing"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 1.55), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkgreen', alpha = .5) +
+  # Define additional settings
+  xlab("Condition") +
+  ylab("Proportion time away") +
+  scale_x_continuous(breaks = c(1, 2), labels = c("Teasing", "Clumsy"), limits = c(0.75,3)) +
+  ylim(0, 1) +
+  theme_classic()
+
+away_plot 
+
+ggsave(away_plot , filename = "graphs/unwilling_unable_away_time_followup.png", width = 8, height = 8, scale = 0.4)
+
+```
+
+Rest (sitting / lying down)
+```{r}
+
+rest.data<-prop.data%>%
+  filter(Value=="rest")%>% 
+  mutate(condition=fct_recode(as.factor(condition), "clumsy"="unable", "teasing"="unwilling"))%>%
+  group_by(subject, condition)%>%
+  summarise(mean_prop_away_time=mean(prop.duration))
+
+rest.data$condition<-fct_relevel(as.factor(rest.data$condition), "teasing", "clumsy")
+rest.data$condition2 <- jitter(as.numeric(as.factor(rest.data$condition), amount = .0001))
+
+library(gghalves)
+library(ggsignif)
+
+
+rest_plot <- ggplot(data = rest.data, aes(x = condition, y= mean_prop_away_time, group=condition)) +
+      geom_line(aes(x = condition2, group = subject), color = "darkgray", lty = 1, alpha = .3) +
+  
+  geom_point(data = rest.data %>% filter(condition == "clumsy"), aes(x = condition2), color = "darkorange", size = 1.5, alpha = .5, ) +
+    geom_point(data = rest.data %>% filter(condition == "teasing"), aes(x = condition2), color = "darkgreen", size = 1.5, alpha = .5, ) +
+
+   geom_half_boxplot(
+     data = rest.data %>% filter(condition == "clumsy"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 0.8), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkorange', alpha = .5) +
+  
+     geom_half_boxplot(
+     data = rest.data %>% filter(condition == "teasing"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 1.55), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkgreen', alpha = .5) +
+   # geom_text(x = 1.4, y = 0.8, label = "***") +
+   # geom_segment(aes(x=0.9, xend=1.9, y = 0.78, yend=0.78))+
+  # Define additional settings
+  xlab("Condition") +
+  ylab("Proportion time sitting / lying down") +
+  scale_x_continuous(breaks = c(1, 2), labels = c("Teasing", "Clumsy"), limits = c(0.75,3)) +
+  ylim(0, 1) +
+  theme_classic()
+
+rest_plot 
+
+ggsave(rest_plot , filename = "graphs/unwilling_unable_rest_time_followup.png", width = 8, height = 8, scale = 0.4)
+
+```
+
+Lateral approach
+```{r}
+
+lateral_approach_data<-prop.data%>%
+  filter(Value=="lateral_approach")%>% 
+  mutate(condition=fct_recode(as.factor(condition), "clumsy"="unable", "teasing"="unwilling"))%>%
+  group_by(subject, condition)%>%
+  summarise(mean_prop_away_time=mean(prop.duration))
+
+lateral_approach_data$condition<-fct_relevel(as.factor(lateral_approach_data$condition), "teasing", "clumsy")
+lateral_approach_data$condition2 <- jitter(as.numeric(as.factor(lateral_approach_data$condition), amount = .0001))
+
+library(gghalves)
+library(ggsignif)
+
+
+lat_plot <- ggplot(data = lateral_approach_data, aes(x = condition, y= mean_prop_away_time, group=condition)) +
+      geom_line(aes(x = condition2, group = subject), color = "darkgray", lty = 1, alpha = .3) +
+  
+  geom_point(data = lateral_approach_data %>% filter(condition == "clumsy"), aes(x = condition2), color = "darkorange", size = 1.5, alpha = .5, ) +
+    geom_point(data = lateral_approach_data %>% filter(condition == "teasing"), aes(x = condition2), color = "darkgreen", size = 1.5, alpha = .5, ) +
+
+   geom_half_boxplot(
+     data = lateral_approach_data %>% filter(condition == "clumsy"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 0.8), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkorange', alpha = .5) +
+  
+     geom_half_boxplot(
+     data = lateral_approach_data %>% filter(condition == "teasing"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = 1.55), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkgreen', alpha = .5) +
+  # Define additional settings
+  xlab("Condition") +
+  ylab("Proportion time lateral approach") +
+  scale_x_continuous(breaks = c(1, 2), labels = c("Teasing", "Clumsy"), limits = c(0.75,3)) +
+  ylim(0, 1) +
+  theme_classic()
+
+lat_plot 
+
+ggsave(lat_plot , filename = "graphs/unwilling_unable_rest_time_followup.png", width = 8, height = 8, scale = 0.4)
+
+```
+
+```{r}
+library(cowplot)
+
+pg<-plot_grid(away_plot, rest_plot, lat_plot, nrow=1, labels=c("A", "B", "C"))
+
+ggsave(pg, filename = "graphs/unwilling_unable_plot_grid_fullowup.png", height = 5, width=16, scale=0.65)
+
+ggsave(pg, filename = "graphs/unwilling_unable_plot_grid_fullowup.pdf", height = 5, width=16, scale=0.65)
+```
+
+
+# Transfer phase
+## Test phase
+```{r}
+test.data <- read.csv(file = "data/unwilling_unable_followup_live_scorings.csv") %>%
+   rename(Subject=name)
+```
+
+### Preference test
+first approach (1: unable / 0: unwilling): binomial test to test whether the dogs' choices deviate from 50% (binom.test)
+```{r}
+bt.test.data<-test.data%>%
+  filter(phase=="preference")%>%
+  summarise(unable_choice=sum(choice, na.rm=TRUE), unwilling_choice=sum(choice==0, na.rm=TRUE), count_choice=sum(!is.na(choice)), n_dogs=length(choice))
+
+binom.test(bt.test.data$unable_choice, bt.test.data$count_choice, p=0.5)
+```
+time close to unable or unwilling experimenter:paired samples t.test(x, y, paired=TRUE,  alternative = "two.sided")
+
+aggregate for preference test
+```{r}
+agg.data.preference.test<- agg.data %>%
+  droplevels()%>%
+  filter(Value=="unable" | Value=="unwilling")%>%
+  filter(trial==16)
+  
+preference_time_data<-agg.data.preference.test%>%
+  select(Subject, Value, sum_duration)%>%
+  pivot_wider(names_from=Value , values_from=sum_duration)
+
+view(dfSummary(agg.data.preference.test))
+view(dfSummary(preference_time_data))
+```
+
+
+```{r}
+hist(preference_time_data$unwilling - preference_time_data$unable)
+```
+
+paired-sample t-test
+```{r}
+t.test(preference_time_data$unwilling, preference_time_data$unable, paired=TRUE, alternative = "two.sided")
+```
+
+
+### Pointing task
+
+```{r}
+view(dfSummary(test.data))
+
+pointing.test<- test.data %>%
+  filter(phase=="pointing")
+
+```
+
+```{r}
+
+pointing.test$z.trial<-as.vector(scale(pointing.test$trial, center = TRUE, scale=TRUE))
+
+m1.pointing<-glmer(choice ~ 1 + (1+z.trial|subj.id), family=binomial, data=pointing.test, control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000000)))
+
+summary(m1.pointing)
+```
+pointing task based on aggregated data
+```{r}
+
+agg.data.pointing.test<- test.data %>%
+  droplevels()%>%
+  filter(phase=="pointing")%>%
+  group_by(Subject)%>%
+  summarise(mean_choice=mean(choice), sum(choice))%>%
+  add_count(mean_choice)
+
+pointing_plot<-ggplot(data=agg.data.pointing.test, aes(x=1, y=mean_choice))+
+  geom_boxplot(outlier.colour = "white")+
+  geom_point(size=agg.data.pointing.test$n, alpha=0.15)+
+  geom_hline(yintercept = 0.5, lty=2, lwd=1.5, color="red")+
+  theme_classic()+
+  ylab("Mean choice of unable experimenter side")+
+  ylim(0, 1)+
+  xlim("")+
+  xlab("Pointing task")
+
+t.test(agg.data.pointing.test$mean_choice, mu=0.5)
+```
+
+
+```{r}
+save.image("unwilling_unable_analysis_follow_up.RData")
+```
