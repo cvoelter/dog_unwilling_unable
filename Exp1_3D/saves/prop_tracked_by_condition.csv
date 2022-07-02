@@ -1,0 +1,4 @@
+"","condition","mean(prop_tracked_data)","min(prop_tracked_data)","max(prop_tracked_data)","mean(median_err, na.rm = TRUE)"
+"1","blocked",0.960234320864211,0.0739910313901345,1,9.13485576151819
+"2","clumsy",0.976766826156374,0.0175644028103044,1,7.521951984874
+"3","teasing",0.968970984397698,0,1,7.59494445336114

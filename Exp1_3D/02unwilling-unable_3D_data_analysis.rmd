@@ -1,0 +1,834 @@
+---
+title: "Unwilling / unable: 3D tracking data processing"
+author: "Christoph Voelter"
+date: "22/04/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(summarytools)
+library(ggthemes)
+library(lubridate)
+library(glmmTMB)
+
+source("./functions/diagnostic_fcns.r")
+source("./functions/glmm_stability.r")
+source("./functions/boot_glmm.r")
+source("./functions/glmmTMB_stability.r")
+source("./functions/drop1_para_glmmtmb.r")
+source("./functions/extract_ranef_gmmTMB.r")
+
+#load("unwilling_unable_3D_analysis.RData")
+```
+
+Notes: Pruning of the models in case of convergence issues in the following order:
+- remove random slope of control variable trial number
+- remove control predictors:  sex, age
+- remove random slopes of test predictors
+
+Load data
+```{r}
+demographics.data<-read.csv(file="data/unwilling_unable_demographics.csv")%>%
+  rename(sex=gender)
+
+xdata<-read.csv(file="data/unwilling_unable_3D_summary_data.csv")%>%
+  rename(CDL.name=subject)%>%
+  select(-X)%>%
+  inner_join(demographics.data)
+ 
+view(dfSummary(xdata))
+
+
+```
+
+
+### Proportion of tracked data 
+```{r}
+#proportion of tracked data by keypoint
+xdata%>%
+  group_by(keypoint)%>%
+  summarise(mean(prop_tracked_data),median(prop_tracked_data), min(prop_tracked_data),max(prop_tracked_data), mean(median_err))
+```
+
+## Head centre data
+
+```{r}
+library(lme4)
+xdata$condition <- as.factor(xdata$condition)
+xdata$condition <- relevel(xdata$condition, ref = "blocked")
+snout.data<-xdata%>%filter(keypoint=="snout")
+hc.data<-xdata%>%filter(keypoint=="head_centre")
+tail.data<-xdata%>%filter(keypoint=="tail_tip")
+
+hist(hc.data$prop_tracked_data)
+hc.data$z.trial<-as.vector(scale(hc.data$trial, center = TRUE, scale=TRUE))
+hc.data$z.age<-as.vector(scale(hc.data$age, center = TRUE, scale=TRUE))
+hc.data$z.order<-as.vector(scale(hc.data$block, center = TRUE, scale=TRUE))
+hc.data$condition.c1=as.vector(scale(as.numeric(hc.data$condition==levels(as.factor(hc.data$condition))[2]), center=TRUE, scale= FALSE))
+hc.data$condition.c2=as.vector(scale(as.numeric(hc.data$condition==levels(as.factor(hc.data$condition))[3]), center=TRUE, scale= FALSE))
+hc.data$sex<- as.factor(hc.data$sex)
+
+view(dfSummary(hc.data))
+
+hist(hc.data$distance.sum)
+hist(log(hc.data$distance.sum))
+hist(hc.data$z.trial)
+```
+
+
+
+## travelled distance
+
+```{r}
+hc.data$log.distance.sum <- log(hc.data$distance.sum)
+mm1<-lmer(log.distance.sum~condition+z.trial+z.order + sex+z.age+
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID)+
+            (0+z.order|subjectID) + (0+z.trial|subjectID), weights=1/prop_tracked_data, data=hc.data, REML=FALSE)
+
+
+mm1.null<-lmer(log.distance.sum~z.trial+z.order + sex+z.age+
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID)+
+            (0+z.order|subjectID) + (0+z.trial|subjectID), weights=1/prop_tracked_data, data=hc.data, REML=FALSE)
+
+anova(mm1, mm1.null,  test = "Chisq")
+```
+
+
+```{r}
+diagnostics.plot(mm1, size.fac=2)
+
+ranef.diagn.plot(mm1)
+```
+
+```{r}
+drop1_mm1 <- drop1(mm1, test="Chisq")%>%filter(!is.na(NumDF))%>%add_row(NumDF = rep(NA,1),  .before = 1)%>%add_row(NumDF = rep(NA,1),  .before = 3)
+summary(mm1)
+```
+Individual fixed effects
+```{r}
+library(lmerTest)
+mm1.reml<-lmer(log.distance.sum~condition+z.trial+z.order + sex+z.age+
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID)+
+            (0+z.order|subjectID) + (0+z.trial|subjectID), weights=1/prop_tracked_data, data=hc.data, REML=TRUE)
+summary(mm1.reml)
+```
+```{r}
+hc.data2 <- hc.data
+hc.data2$condition <- relevel(hc.data2$condition, ref = "teasing")
+hc.data2$condition.c1=as.vector(scale(as.numeric(hc.data2$condition==levels(as.factor(hc.data2$condition))[2]), center=TRUE, scale= FALSE))
+hc.data2$condition.c2=as.vector(scale(as.numeric(hc.data2$condition==levels(as.factor(hc.data2$condition))[3]), center=TRUE, scale= FALSE))
+
+mm1.reml.rl<-lmer(log.distance.sum~condition+z.trial+z.order + sex+z.age+
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID)+
+            (0+z.order|subjectID) + (0+z.trial|subjectID), weights=1/prop_tracked_data, data=hc.data2, REML=TRUE)
+summary(mm1.reml.rl)
+```
+
+```{r}
+library(car)
+xx=lm(log.distance.sum~condition+z.trial+z.order + sex+z.age, data=hc.data)
+vif(xx)
+```
+relative model complexity
+```{r}
+length(residuals(mm1))/
+(length(fixef(mm1))+
+nrow(as.data.frame(summary(mm1)$varcor)))
+```
+
+--> model stable with regard to the fixed effects
+
+```{r eval=FALSE}
+boot.mm1=boot.lmer(mm1, discard.warnings=F,
+nboots=1000, para=T, n.cores="all-1", resol=1000, level=0.95)
+
+mm1_boot_ci<-boot.mm1$ci.estimates
+```
+### effect size
+```{r}
+library(MuMIn)
+r.squaredGLMM(mm1)
+```
+
+
+### output table
+
+```{r}
+
+
+model_table_distance <- bind_cols(as.data.frame(summary(mm1)$coefficients),
+                         drop1_mm1,
+                         mm1_boot_ci) %>% #mm2_boot_ci<-boot.full$ci.estimates
+  select(Estimate, SE = `Std. Error`, LowerCI = X2.5., UpperCI = X97.5., F_value = `F value`, df = NumDF, p = `Pr(>F)`) %>%
+  mutate(across(.cols = c(p), ~ round(.x, 3))) %>% 
+  mutate(across(.cols = c(Estimate:F_value), ~ round(.x, 2))) %>% 
+  #mutate(across(Chi2:p, ~replace_na(.x, "")))%>%
+mutate(p=replace(p, p==0, "<0.001"))
+
+write.csv(model_table_distance , file = "saves/distance_mm1_output_table.csv")
+```
+
+
+```{r}
+save.image("unwilling_unable_3D_analysis.RData")
+```
+
+
+
+## Tail wagging 
+
+
+```{r}
+
+prop.tracked.data<-xdata%>%
+  filter(keypoint=="tail_base" | keypoint=="tail_tip")%>%
+  group_by(subjectID, condition)%>%
+  summarise(mean_prop_tracked_data=mean(prop_tracked_data))
+
+
+tail.tip.data<-xdata%>%
+  filter(keypoint=="tail_base" | keypoint=="tail_tip")%>%
+  select(subjectID, keypoint, distance.sum,  condition, trial, sex, age, block)%>%
+  pivot_wider(names_from = keypoint, values_from=distance.sum)%>%
+  mutate(tail_tip_diff=tail_tip-tail_base, tail_tip_ratio=tail_tip/tail_base, tail_tip_scaled=tail_tip_ratio/max(tail_tip_ratio, na.rm=TRUE))%>%
+  left_join(prop.tracked.data)
+
+tail.tip.data$z.trial<-as.vector(scale(tail.tip.data$trial, center = TRUE, scale=TRUE))
+tail.tip.data$z.age<-as.vector(scale(tail.tip.data$age, center = TRUE, scale=TRUE))
+tail.tip.data$z.order<-as.vector(scale(tail.tip.data$block, center = TRUE, scale=TRUE))
+tail.tip.data$condition.c1=as.vector(scale(as.numeric(tail.tip.data$condition==levels(as.factor(tail.tip.data$condition))[2]), center=TRUE, scale= FALSE))
+tail.tip.data$condition.c2=as.vector(scale(as.numeric(tail.tip.data$condition==levels(as.factor(tail.tip.data$condition))[3]), center=TRUE, scale= FALSE))
+tail.tip.data$sex<- as.factor(tail.tip.data$sex)
+
+hist((tail.tip.data$tail_tip_ratio))
+hist((tail.tip.data$tail_tip_diff))
+hist((tail.tip.data$tail_tip_scaled))
+hist(log(tail.tip.data$tail_tip_ratio))
+```
+
+
+
+```{r}
+##code to remove 1 and 0 from the distribution of the response variable
+tail.tip.data$resp <- (tail.tip.data$tail_tip_scaled*(length(tail.tip.data$tail_tip_scaled) - 1) + 0.5)/length(tail.tip.data$tail_tip_scaled) 
+
+tail.tip.data<-tail.tip.data%>%drop_na(resp)
+view(dfSummary(tail.tip.data))
+
+min(tail.tip.data$resp)
+```
+
+
+```{r}
+contr<-glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000))
+mm2=glmmTMB(resp~condition+z.trial+z.order + sex+z.age+
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID)+
+            (0+z.order|subjectID) + (0+z.trial|subjectID),
+            weights=1/mean_prop_tracked_data, family=beta_family, data=tail.tip.data,
+      control=contr)
+
+mm2.null=glmmTMB(resp~z.trial+z.order + sex+z.age+
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID)+
+            (0+z.order|subjectID) + (0+z.trial|subjectID),
+            weights=1/mean_prop_tracked_data, family=beta_family, data=tail.tip.data,
+      control=contr)
+
+anova(mm2, mm2.null,  test = "Chisq")
+summary(mm2)
+```
+
+```{r}
+overdisp.test(mm2)
+```
+
+```{r}
+tail.mm2.drop1<-as.data.frame(drop1(mm2, test="Chisq", control=contr))
+tail.mm2.drop1<-tail.mm2.drop1%>%add_row(Df = rep(NA,1),  .before = 1)%>%add_row(Df = rep(NA,1),  .before = 3)
+tail.mm2.drop1
+```
+
+
+
+```{r eval=FALSE}
+mm2_tail.ci=boot.lmer(mm2, discard.warnings=F,
+nboots=1000, para=T, n.cores="all-1", resol=1000, level=0.95)
+  
+  #boot.glmmtmb(mm2,tail.tip.data, nboots=1000, para=T, n.cores = "all-1", )
+
+```
+
+### output table
+
+```{r eval=FALSE}
+#model_tail_cis=grepl(x=rownames(mm2_tail.ci$ci.estimates$fe), pattern="@cond")
+
+model_table_tail<- bind_cols(as.data.frame(summary(mm3)$coefficients$cond),
+                             tail.mm3.drop1,
+                             mm2_tail.ci$ci.estimates$fe[1:7,]) %>%
+  select(Estimate, SE = `Std. Error`, LowerCI = X2.5., UpperCI = X97.5., Chi2 = LRT, df = Df, p = `Pr(>Chi)`) %>%
+  mutate(across(.cols = c(p), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+  mutate(across(Chi2:p, ~replace_na(.x, "")))%>%
+mutate(p=replace(p, p==0, "<0.001"))
+
+write.csv(model_table_tail, file = "saves/tail_mm3_output_table.csv")
+```
+
+```{r}
+ggplot(data=tail.tip.data, aes(x=condition , y=tail_tip_scaled))+
+  geom_boxplot()+
+  geom_jitter()+
+  theme_bw()
+```
+
+
+## Area covered
+
+```{r}
+hist(hc.data$area_covered)
+min(hc.data$area_covered)
+max(hc.data$area_covered)
+view(dfSummary(hc.data))
+```
+
+
+
+```{r}
+p1<-ggplot(data=hc.data, aes(x=condition, y=area_covered))+
+  geom_jitter()+
+  geom_violin(alpha=0.2)
+p1
+```
+
+
+
+
+```{r}
+## code to run the model
+hc.data$prop_tracked_data_inv<-1/hc.data$prop_tracked_data
+contr<-glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000))
+
+mm1_area=glmmTMB(area_covered~condition+z.trial+z.order+z.age+sex +
+            (1|subjectID)+
+            (0+condition.c1|subjectID)+(0+condition.c2|subjectID)+
+            (0+z.order|subjectID) + (0+z.trial|subjectID),
+             weights=prop_tracked_data_inv,
+             data=hc.data, family=beta_family, control=contr)
+
+mm1_area_null=glmmTMB(area_covered~z.trial+z.order + z.age+sex +
+            (1|subjectID)+
+            (0+condition.c1|subjectID)+(0+condition.c2|subjectID)+
+            (0+z.order|subjectID) + (0+z.trial|subjectID),
+             weights=prop_tracked_data_inv,
+             data=hc.data, family=beta_family, control=contr)
+
+anova(mm1_area, mm1_area_null, test="Chisq")
+
+```
+
+
+```{r}
+overdisp.test(mm1_area)
+
+summary(mm1_area)
+
+mm1_area_drop1 <- drop1(mm1_area, test="Chisq")%>% 
+  filter(!is.na(Df)) %>% 
+  add_row(Df = rep(NA,1),  .before = 1) %>% 
+  add_row(Df = rep(NA,1),  .before = 3)
+```
+relevelling of reference category:
+```{r}
+hc.data2$prop_tracked_data_inv<-1/hc.data2$prop_tracked_data
+mm1_area.rl=glmmTMB(area_covered~condition+z.trial+z.order+ z.age+sex +
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID)+
+            (0+z.order|subjectID) + (0+z.trial|subjectID),
+             weights=prop_tracked_data_inv,
+             data=hc.data2, family=beta_family, control=contr)
+summary(mm1_area.rl)
+```
+
+```{r}
+library(car)
+xx=lm(area_covered~condition+z.trial+z.order+ sex+z.age, data=hc.data)
+vif(xx)
+```
+```{r eval=FALSE}
+mm1_area_tail.ci=boot.glmmtmb(mm1_area, 
+nboots=1000, para=T, n.cores="all-1", resol=1000, level=0.95, data=hc.data)
+  
+  
+```
+
+### output table
+
+```{r}
+model_table_area <- bind_cols(as.data.frame(summary(mm1_area)$coefficients$cond),
+                              mm1_area_drop1)%>%#,
+                            # mm1_area_tail.ci$ci.estimates$fe[1:7,]) %>%
+  select(Estimate, SE = `Std. Error`, Chi2 = LRT, df = Df, p = `Pr(>Chi)`, z_wald=`z value`, p_wald=`Pr(>|z|)`) %>% #LowerCI = X2.5., UpperCI = X97.5., 
+  mutate(across(.cols = c(p), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+  #mutate(across(Chi2:p, ~replace_na(.x, "")))%>%
+mutate(p=replace(p, p==0, "<0.001"))
+
+write.csv(model_table_area, file = "saves/area_mm1_output_table.csv")
+```
+
+
+## Duration in owner proximity
+
+```{r}
+hist(hc.data$prop_chair_owner)
+min(hc.data$prop_chair_owner)
+max(hc.data$prop_chair_owner)
+view(dfSummary(hc.data))
+
+hc.data <- hc.data %>%
+  mutate(binary_chair_owner=as.numeric(ifelse(prop_chair_owner>0, 1, ifelse(prop_chair_owner==0, 0, NA))))
+hist(hc.data$binary_chair_owner)
+##code to remove 1 and 0 from the distribution of the response variable
+hc.data$prop_chair_owner_scaled <- (hc.data$prop_chair_owner*(length(hc.data$prop_chair_owner) - 1) + 0.5)/length(hc.data$prop_chair_owner)
+```
+
+```{r}
+p.owner.chair<-ggplot(data=hc.data, aes(x=condition, y=prop_chair_owner))+
+  geom_jitter()+
+  geom_violin(alpha=0.2)
+p.owner.chair
+```
+
+
+
+
+```{r}
+contr<-glmmTMBControl(optCtrl=list(iter.max=100000000, eval.max=100000000))
+
+mm1_duration_owner=glmmTMB(prop_chair_owner_scaled ~ condition+z.trial+z.order+ z.age+sex+
+            (1+condition.c1+condition.c2 + z.order + z.trial|subjectID),
+             weights=prop_tracked_data_inv,
+             data=hc.data, family=beta_family, control=contr)
+#convergence issues with beta models --> use binomial model instead
+mm1_duration_owner=glmmTMB(prop_chair_owner_scaled ~ condition+z.trial+z.order+ z.age+sex+
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID),
+             weights=prop_tracked_data_inv,
+             data=hc.data, family=beta_family, control=contr)
+
+```
+convergences issues with proportion data --> analyse as binary data
+```{r}
+
+library(lme4)
+
+mm1_binary_owner=glmer(binary_chair_owner ~ condition+z.trial+z.order+ z.age+sex+
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID) + (0+z.order|subjectID)+ 
+            (0+z.trial|subjectID),
+             data=hc.data, family=binomial, 
+            control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
+
+summary(mm1_binary_owner)
+```
+```{r}
+hc.data2 <- hc.data2 %>%
+  mutate(binary_chair_owner=as.numeric(ifelse(prop_chair_owner>0, 1, ifelse(prop_chair_owner==0, 0, NA))))
+hist(hc.data2$binary_chair_owner)
+
+mm1_binary_owner_rl=glmer(binary_chair_owner ~ condition+z.trial+z.order+ z.age+ sex+
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID) + (0+z.order|subjectID)+ 
+            (0+z.trial|subjectID),
+             data=hc.data2, family=binomial, 
+            control=glmerControl(optimizer="bobyqa",optCtrl=list(maxfun=2e5)))
+
+summary(mm1_binary_owner_rl)
+```
+
+```{r}
+
+mm1_binary_owner_drop1 <- drop1(mm1_binary_owner, test="Chisq")%>% 
+  filter(!is.na(npar)) %>% 
+  add_row(npar = rep(NA,1),  .before = 1) %>% 
+  add_row(npar = rep(NA,1),  .before = 3)
+```
+
+
+```{r}
+library(car)
+xx=lm(binary_chair_owner ~ condition+z.trial+z.order+ sex+z.age, data=hc.data)
+vif(xx)
+```
+
+```{r}
+mm1_binary_owner.ci=boot.lmer(mm1_binary_owner, discard.warnings=F,
+nboots=1000, para=T, n.cores="all-1", resol=1000, level=0.95)
+  
+  #boot.glmmtmb(mm2,tail.tip.data, nboots=1000, para=T, n.cores = "all-1", )
+
+```
+
+
+### output table
+
+
+```{r}
+model_owner_IA <- bind_cols(as.data.frame(summary(mm1_binary_owner)$coeff),
+                              mm1_binary_owner_drop1,
+                             mm1_binary_owner.ci$ci.estimates) %>%
+  select(Estimate, SE = `Std. Error`,LowerCI = X2.5., UpperCI = X97.5., Chi2 = LRT, df = npar, p = `Pr(Chi)`, z_wald=`z value`, p_wald=`Pr(>|z|)`) %>% # 
+  mutate(across(.cols = c(p), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+  #mutate(across(Chi2:p, ~replace_na(.x, "")))%>%
+mutate(p=replace(p, p==0, "<0.001"))
+
+write.csv(model_owner_IA, file = "saves/mm1_binary_owner_output_table.csv")
+```
+
+
+## Tail angle
+positive values: right side, negative values left side
+
+```{r}
+
+tail.data <- tail.data %>%
+  filter(CDL.name!="Pebbles3") #dog with a docked tail
+tail.data$z.trial<-as.vector(scale(tail.data$trial, center = TRUE, scale=TRUE))
+tail.data$z.age<-as.vector(scale(tail.data$age, center = TRUE, scale=TRUE))
+tail.data$z.order<-as.vector(scale(tail.data$block, center = TRUE, scale=TRUE))
+tail.data$condition.c1=as.vector(scale(as.numeric(tail.data$condition==levels(as.factor(tail.data$condition))[2]), center=TRUE, scale= FALSE))
+tail.data$condition.c2=as.vector(scale(as.numeric(tail.data$condition==levels(as.factor(tail.data$condition))[3]), center=TRUE, scale= FALSE))
+tail.data$sex<- as.factor(tail.data$sex)
+
+view(dfSummary(tail.data))
+
+hist(tail.data$tail_angle_mean)
+hist(tail.data$tail_angle_prop_tracked)
+
+tail.data$tail_angle_mean_pos <- (tail.data$tail_angle_mean + 180) 
+tail.data$tail_angle_mean_prop <- tail.data$tail_angle_mean_pos  / 360 
+trans<-powerTransform(tail.data$tail_angle_mean_pos)$lambda
+tail.data$log_tail_angle_mean_pos<-((tail.data$tail_angle_mean_pos^trans-1)/trans)
+hist(tail.data$log_tail_angle_mean_pos)
+max(tail.data$tail_angle_mean_prop)
+```
+
+```{r}
+library(lme4)
+
+mm1.tail.angle.beta=glmmTMB(tail_angle_mean_prop~condition + z.trial+z.order +  z.age + sex +
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID) + (0+z.order|subjectID)+ 
+            (0+z.trial|subjectID),
+            weights=1/tail_angle_prop_tracked, data=tail.data, family=beta_family, control=contr)
+
+
+mm1.tail.angle<-lme4::lmer(tail_angle_mean~condition + z.trial+z.order +  z.age + sex +
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID) + (0+z.order|subjectID)+ 
+            (0+z.trial|subjectID), weights=1/tail_angle_prop_tracked, data=tail.data, REML=FALSE)
+
+mm1.tail.angle.null<-lme4::lmer(tail_angle_mean~z.trial+z.order +  z.age + sex +
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID) + (0+z.order|subjectID)+ 
+            (0+z.trial|subjectID), weights=1/tail_angle_prop_tracked, data=tail.data, REML=FALSE)
+
+anova(mm1.tail.angle, mm1.tail.angle.null,  test = "Chisq")
+summary(mm1.tail.angle)
+```
+
+
+```{r}
+diagnostics.plot(mm1.tail.angle, size.fac=2)
+
+ranef.diagn.plot(mm1.tail.angle)
+```
+
+```{r}
+drop1_mm1.tail.angle <- drop1(mm1.tail.angle, test="Chisq")%>%filter(!is.na(npar))%>%add_row(npar = rep(NA,1),  .before = 1)%>%add_row(npar = rep(NA,1),  .before = 3)
+drop1_mm1.tail.angle
+
+drop1(mm1.tail.angle.beta, test="Chisq") #results of beta model confirm LMM 
+```
+Individual fixed effects
+```{r}
+library(lmerTest)
+mm1.tail.angle.reml<-lmer(tail_angle_mean~condition + z.trial+z.order + z.age + sex +
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID) + (0+z.order|subjectID)+ 
+            (0+z.trial|subjectID), weights=1/tail_angle_prop_tracked, data=tail.data, REML=TRUE)
+summary(mm1.tail.angle.reml)
+```
+
+```{r}
+tail.data2 <- tail.data
+tail.data2$condition <- relevel(tail.data2$condition, ref = "teasing")
+tail.data2$condition.c1=as.vector(scale(as.numeric(tail.data2$condition==levels(as.factor(tail.data2$condition))[2]), center=TRUE, scale= FALSE))
+tail.data2$condition.c2=as.vector(scale(as.numeric(tail.data2$condition==levels(as.factor(tail.data2$condition))[3]), center=TRUE, scale= FALSE))
+
+
+mm1.tail.angle.reml.rl<-lmer(tail_angle_mean~condition + z.trial+z.order + z.age + sex +
+            (1|subjectID)+
+            (0+condition.c1+condition.c2|subjectID) + (0+z.order|subjectID)+ 
+            (0+z.trial|subjectID), weights=1/tail_angle_prop_tracked, data=tail.data2, REML=TRUE)
+summary(mm1.tail.angle.reml.rl)
+```
+
+
+```{r}
+library(car)
+xx=lm(tail_angle_mean~condition + z.trial+z.order + sex + z.age, data=hc.data)
+vif(xx)
+```
+relative model complexity
+```{r}
+length(residuals(mm1.tail.angle))/
+(length(fixef(mm1.tail.angle))+
+nrow(as.data.frame(summary(mm1.tail.angle)$varcor)))
+```
+model stability
+```{r}
+
+mm1.tail.angle.stab=glmm.model.stab(model.res=mm1.tail.angle, contr=NULL, para=F, data=NULL)
+
+mm1.tail.angle.stab$summary
+
+m.stab.plot(round(mm1.tail.angle.stab$summary[, -1], 3))
+```
+--> model stable with regard to the fixed effects
+
+```{r}
+boot.mm1.tail.angle=boot.lmer(mm1.tail.angle, discard.warnings=F,
+nboots=1000, para=T, n.cores="all-1", resol=1000, level=0.95)
+
+mm1.tail.angle_boot_ci<-boot.mm1.tail.angle$ci.estimates
+```
+### effect size
+```{r}
+library(MuMIn)
+r.squaredGLMM(mm1.tail.angle)
+```
+
+
+### output table
+
+```{r}
+
+
+model_table_mm1.tail.angle <- bind_cols(as.data.frame(summary(mm1.tail.angle)$coefficients),
+                         drop1_mm1.tail.angle,
+                         mm1.tail.angle_boot_ci) %>% #mm2_boot_ci<-boot.full$ci.estimates
+  select(Estimate, SE = `Std. Error`, LowerCI = X2.5., UpperCI = X97.5., Chi2 = LRT, df = npar, p = `Pr(Chi)`) %>%
+  mutate(across(.cols = c(p), ~ round(.x, 3))) %>% 
+  mutate(across(.cols = c(Estimate:Chi2), ~ round(.x, 2))) %>% 
+  #mutate(across(Chi2:p, ~replace_na(.x, "")))%>%
+mutate(p=replace(p, p==0, "<0.001"))
+
+write.csv(model_table_mm1.tail.angle , file = "saves/tail_angle_mm1_output_table.csv")
+```
+
+
+
+
+
+
+
+```{r}
+hc.data.agg <- hc.data %>%
+  group_by(condition, subjectID) %>%
+  summarise(mean.angle = mean(tail_angle_mean))
+
+ggplot(data=hc.data.agg, aes(x=mean.angle)) +
+      geom_histogram(alpha=0.8) + 
+  coord_polar(theta="x", start=pi)+
+  facet_wrap(~condition)
+
+ggplot(data=hc.data.agg, aes(x=mean.angle)) +
+      geom_histogram(alpha=0.8) + 
+  facet_wrap(~condition)
+
+ggplot(data=hc.data.agg, aes(x=condition, y=mean.angle)) +
+      geom_boxplot(alpha=0.8)+
+  geom_jitter()
+```
+
+
+
+## Plotting
+
+```{r}
+source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
+       
+raincloud_theme = theme(
+text = element_text(size = 10),
+axis.title.x = element_text(size = 16),
+axis.title.y = element_text(size = 16),
+axis.text = element_text(size = 14),
+axis.text.x = element_text(angle = 45, vjust = 0.5),
+legend.title=element_text(size=16),
+legend.text=element_text(size=16),
+legend.position = "right",
+plot.title = element_text(lineheight=.8, face="bold", size = 16),
+panel.border = element_blank(),
+panel.grid.minor = element_blank(),
+panel.grid.major = element_blank(),
+axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'))
+```
+
+#### Area covered plot
+```{r}
+
+plot.data<-hc.data%>%
+  mutate(condition=fct_relevel(condition, "blocked", "teasing","clumsy")) %>%
+  group_by(subjectID, condition)%>%
+  summarise(mean_area = mean(area_covered), mean_owner_IA = mean(binary_chair_owner), mean_tail_angle = mean(tail_angle_mean))
+
+levels(plot.data$condition2)
+plot.data$condition2 <- jitter(as.numeric(as.factor(plot.data$condition), amount = .0001))
+
+library(gghalves)
+max(plot.data$mean_area)
+
+area_plot <- ggplot(data = plot.data, aes(x = condition, y= mean_area)) +
+      geom_line(aes(x = condition2, group = subjectID), color = "darkgray", lty = 1, alpha = .3) +
+  geom_point(data = plot.data %>% filter(condition == "blocked"), aes(x = condition2), color = "dodgerblue", size = 1.5, alpha = .5) +
+  geom_point(data = plot.data %>% filter(condition == "clumsy"), aes(x = condition2), color = "darkorange", size = 1.5, alpha = .5, ) +
+    geom_point(data = plot.data %>% filter(condition == "teasing"), aes(x = condition2), color = "darkgreen", size = 1.5, alpha = .5, ) +
+     geom_half_boxplot(
+     data = plot.data %>% filter(condition == "blocked"), aes(x = condition2, y = mean_area), position = position_nudge(x = 2.3), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'dodgerblue', alpha = .5) +
+   
+   geom_half_boxplot(
+     data = plot.data %>% filter(condition == "clumsy"), aes(x = condition2, y = mean_area), position = position_nudge(x = 0.8), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkorange', alpha = .5) +
+  
+     geom_half_boxplot(
+     data = plot.data %>% filter(condition == "teasing"), aes(x = condition2, y = mean_area), position = position_nudge(x = 1.55), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkgreen', alpha = .5) +
+    # Define additional settings
+  xlab("Condition") +
+  ylab("Proportion area visited") +
+  scale_x_continuous(breaks = c(1, 2, 3), labels = c("Blocked", "Teasing", "Clumsy"), limits = c(0.75,4)) +
+  ylim(0, 0.25) +
+  theme_classic()
+
+area_plot
+
+ggsave(area_plot , filename = "graphics/unwilling_unable_area_plot.png", width = 8, height = 8, scale = 0.4)
+
+```
+
+
+
+#### Caregiver IA
+```{r}
+
+library(gghalves)
+max(plot.data$mean_area)
+
+caregiverIA_plot <- ggplot(data = plot.data, aes(x = condition, y= mean_owner_IA)) +
+      geom_line(aes(x = condition2, group = subjectID), color = "darkgray", lty = 1, alpha = .3) +
+  geom_point(data = plot.data %>% filter(condition == "blocked"), aes(x = condition2), color = "dodgerblue", size = 1.5, alpha = .5) +
+  geom_point(data = plot.data %>% filter(condition == "clumsy"), aes(x = condition2), color = "darkorange", size = 1.5, alpha = .5, ) +
+    geom_point(data = plot.data %>% filter(condition == "teasing"), aes(x = condition2), color = "darkgreen", size = 1.5, alpha = .5, ) +
+     geom_half_boxplot(
+     data = plot.data %>% filter(condition == "blocked"), aes(x = condition2, y = mean_owner_IA), position = position_nudge(x = 2.3), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'dodgerblue', alpha = .5) +
+   
+   geom_half_boxplot(
+     data = plot.data %>% filter(condition == "clumsy"), aes(x = condition2, y = mean_owner_IA), position = position_nudge(x = 0.8), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkorange', alpha = .5) +
+  
+     geom_half_boxplot(
+     data = plot.data %>% filter(condition == "teasing"), aes(x = condition2, y = mean_owner_IA), position = position_nudge(x = 1.55), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkgreen', alpha = .5) +
+    # Define additional settings
+  xlab("Condition") +
+  ylab("Caregiver IA visited") +
+  scale_x_continuous(breaks = c(1, 2, 3), labels = c("Blocked", "Teasing", "Clumsy"), limits = c(0.75,4)) +
+  ylim(0, 1) +
+  theme_classic()
+
+caregiverIA_plot
+
+ggsave(caregiverIA_plot , filename = "graphics/unwilling_unable_caregiverIA_plot.png", width = 8, height = 8, scale = 0.4)
+
+```
+
+
+
+#### Tail angle plot
+```{r}
+
+
+tailangle_plot <- ggplot(data = plot.data, aes(x = condition, y= mean_tail_angle)) +
+  geom_hline(yintercept = 0, lty=2, col="darkgrey")+
+      geom_line(aes(x = condition2, group = subjectID), color = "darkgray", lty = 1, alpha = .3) +
+  geom_point(data = plot.data %>% filter(condition == "blocked"), aes(x = condition2), color = "dodgerblue", size = 1.5, alpha = .5) +
+  geom_point(data = plot.data %>% filter(condition == "clumsy"), aes(x = condition2), color = "darkorange", size = 1.5, alpha = .5, ) +
+    geom_point(data = plot.data %>% filter(condition == "teasing"), aes(x = condition2), color = "darkgreen", size = 1.5, alpha = .5, ) +
+     geom_half_boxplot(
+     data = plot.data %>% filter(condition == "blocked"), aes(x = condition2, y = mean_tail_angle), position = position_nudge(x = 2.3), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'dodgerblue', alpha = .5) +
+   
+   geom_half_boxplot(
+     data = plot.data %>% filter(condition == "clumsy"), aes(x = condition2, y = mean_tail_angle), position = position_nudge(x = 0.8), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkorange', alpha = .5) +
+  
+     geom_half_boxplot(
+     data = plot.data %>% filter(condition == "teasing"), aes(x = condition2, y = mean_tail_angle), position = position_nudge(x = 1.55), 
+     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
+     fill = 'darkgreen', alpha = .5) +
+    # Define additional settings
+  xlab("Condition") +
+  ylab("Mean tail angle (in deg)") +
+  scale_x_continuous(breaks = c(1, 2, 3), labels = c("Blocked", "Teasing", "Clumsy"), limits = c(0.75,4)) +
+  ylim(-180, 180) +
+  theme_classic()
+
+tailangle_plot
+
+ggsave(tailangle_plot , filename = "graphics/unwilling_unable_tailangle_plot.png", width = 8, height = 8, scale = 0.4)
+
+```
+
+
+
+
+
+```{r}
+library(cowplot)
+pg1<-plot_grid(area_plot, caregiverIA_plot, tailangle_plot, ncol=3,  labels=c("B", "C", "D"))
+
+ggsave(pg1, filename = "graphics/dog_unwillig-unable_pg3.png", width=18, height=6, scale=0.6)
+```
+
+```{r}
+
+library(cowplot)
+pg2<-plot_grid(p3, pg1 , nrow=2,  labels=c("A", ""))
+
+ggsave(pg2, filename = "graphics/unwilling_unable_pg2.png", width=18, height=12, scale=0.6)
+```
+
+```{r}
+save.image("unwilling_unable_3D_analysis.RData")
+```
