@@ -14,6 +14,7 @@ library(car)
 
 source("./functions/diagnostic_fcns.r")
 source("./functions/glmm_stability.r")
+source("./functions/boot_glmm2.r")
 source("./functions/boot_glmm.r")
 source("./functions/glmmTMB_stability.r")
 source("./functions/drop1_para_glmmtmb.r")
@@ -517,18 +518,70 @@ bt.test.data<-test.data%>%
 
 binom.test(bt.test.data$unable_choice, bt.test.data$count_choice, p=0.5)
 ```
-time close to unable or unwilling experimenter:paired samples t.test(x, y, paired=TRUE,  alternative = "two.sided")
 
+does order of condition play a role
+```{r}
+preftest.data<-test.data%>%
+  filter(phase=="preference")
+preftest.data$z.age<-as.vector(scale(preftest.data$age, center = TRUE, scale=TRUE))
+preftest.data$choice<-as.numeric(preftest.data$choice)
+
+preftest.glm1 <- glm(choice ~ first_condition + z.age + sex, 
+             data = preftest.data, family = binomial)
+summary(preftest.glm1)
+preftest.glm1.drop1<-drop1(preftest.glm1, test="Chisq")#likelihood ratio test
+```
+
+check for collinearity in the previous model.
+
+```{R echo=FALSE, error=FALSE, warning=FALSE}
+
+vif(preftest.glm1 )
+```
+
+
+
+#### Model stability
+```{r}
+cbind(coef(preftest.glm1 ), coef(preftest.glm1 )+t(apply(X=dfbeta(preftest.glm1 ), MARGIN=2, FUN=range)))
+# min and max of model estimates
+```
+
+#### Confidence intervals
+```{r}
+preftest.glm1.ci<-cbind(orig=coefficients(preftest.glm1 ), confint(object=preftest.glm1 ))
+```
+
+#### output table
+
+```{r}
+
+model_table_pretest_first_approach<- bind_cols(as.data.frame(summary(preftest.glm1)$coefficients),
+                             preftest.glm1.ci,
+                             preftest.glm1.drop1) %>%
+                             select(Estimate, SE = `Std. Error`,LowerCI = `2.5 %`, UpperCI = `97.5 %`, z=`z value`, p=`Pr(>|z|)`,  Chi2 = LRT, df = Df, p_LRT = `Pr(>Chi)`) %>%
+  mutate(across(.cols = c(p, p_LRT), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z, Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+ # mutate(across(Chi2:p_LRT, ~replace_na(.x, "")))%>%
+mutate(p_LRT=replace(p_LRT, p_LRT==0.000, "<0.001"))%>%
+mutate(p=replace(p, p==0.000, "<0.001"))
+
+write.csv(model_table_pretest_first_approach, file = "saves/m1_results_preftest_first_approach.csv")
+```
+
+time close to unable or unwilling experimenter:
 aggregate for preference test
 ```{r}
 agg.data.preference.test<- agg.data %>%
   droplevels()%>%
   filter(Value=="unable" | Value=="unwilling")%>%
-  filter(trial==16)
+  filter(trial==16) %>%
+  rename(preftest_aoi=Value)
   
 preference_time_data<-agg.data.preference.test%>%
-  select(Subject, Value, sum_duration)%>%
-  pivot_wider(names_from=Value , values_from=sum_duration)
+  select(Subject, preftest_aoi, sum_duration,  first_condition, age,  sex)%>%
+  pivot_wider(names_from=preftest_aoi , values_from=sum_duration) %>%
+  mutate(unable_prop_time = unable / (unable + unwilling))
 
 view(dfSummary(agg.data.preference.test))
 view(dfSummary(preference_time_data))
@@ -542,6 +595,54 @@ hist(preference_time_data$unwilling - preference_time_data$unable)
 paired-sample t-test
 ```{r}
 t.test(preference_time_data$unwilling, preference_time_data$unable, paired=TRUE, alternative = "two.sided")
+```
+
+does order of condition play a role
+```{r}
+preference_time_data$z.age<-as.vector(scale(preference_time_data$age, center = TRUE, scale=TRUE))
+
+preference_time_data$unable_prop_time_scaled <- (preference_time_data$unable_prop_time*(length(preference_time_data$unable_prop_time) - 1) + 0.5)/length(preference_time_data$unable_prop_time)#transform DV to exclude 0 and 1s
+max(preference_time_data$unable_prop_time_scaled, na.rm=TRUE)
+```
+
+
+```{r}
+library(betareg)
+
+preftest.time.glm.intercept.only <- betareg(unable_prop_time_scaled ~ 1, 
+             data = preference_time_data)
+summary(preftest.time.glm.intercept.only)
+```
+
+
+```{r}
+preftest.time.glm1 <- betareg(unable_prop_time_scaled ~ first_condition + z.age + sex, 
+             data = preference_time_data)
+summary(preftest.time.glm1)
+```
+
+```{r}
+preftest.time.glm1.ci <- confint(preftest.time.glm1)
+```
+
+#### check for overdispersion
+```{r}
+overdisp.test(preftest.time.glm1)
+
+```
+
+#### output table
+
+```{r}
+
+model_preftest.time.glm1<- bind_cols(as.data.frame(summary(preftest.time.glm1)$coefficients$mean),
+                             preftest.time.glm1.ci[1:4,]) %>%
+                             dplyr::select(Estimate, SE = `Std. Error`,LowerCI = `2.5 %`, UpperCI = `97.5 %`, z=`z value`, p=`Pr(>|z|)`) %>%
+  mutate(across(.cols = c(p), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z), ~ format(round(.x, 2), nsmall=2))) %>% 
+  mutate(p=replace(p, p==0.000, "<0.001"))
+
+write.csv(model_preftest.time.glm1, file = "saves/m1_preftest_proptime.csv")
 ```
 
 
@@ -563,6 +664,64 @@ m1.pointing<-glmer(choice ~ 1 + (1+z.trial|subj.id), family=binomial, data=point
 
 summary(m1.pointing)
 ```
+analysing the effect of demonstration order
+```{r}
+
+pointing.test$z.trial<-as.vector(scale(pointing.test$trial, center = TRUE, scale=TRUE))
+pointing.test$z.age<-as.vector(scale(pointing.test$age, center = TRUE, scale=TRUE))
+
+m2.pointing<-glmer(choice ~ z.trial + first_condition + z.age + sex+ (1+z.trial|subj.id), family=binomial, data=pointing.test, control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000000)))
+
+summary(m2.pointing)
+m2.pointing.drop1<-drop1(m2.pointing, test="Chisq")#likelihood ratio test
+```
+
+
+check for collinearity in the previous model.
+
+```{R echo=FALSE, error=FALSE, warning=FALSE}
+xx<-lm(choice ~ z.trial + first_condition + z.age + sex, data=pointing.test)
+vif(xx )
+```
+
+model stability
+```{r}
+
+m2.pointing.stab=glmm.model.stab(model.res=m2.pointing, para=F, data=pointing.test)
+
+m2.pointing.stab$summary
+
+m.stab.plot(round(m2.pointing.stab$summary[, -1], 3))
+```
+
+
+
+```{r}
+boot.m2.pointing<-boot.glmm.pred(m2.pointing, nboots=1000, para=T, n.cores=3, resol=100, level=0.95)
+
+
+```
+
+
+
+#### output table
+
+```{r}
+
+model_pointing_task<- bind_cols(as.data.frame(summary(m2.pointing)$coefficients),
+                             boot.m2.pointing$ci.estimates,
+                             m2.pointing.drop1) %>%
+                             select(Estimate, SE = `Std. Error`,LowerCI = X2.5., UpperCI = X97.5., z=`z value`, p=`Pr(>|z|)`,  Chi2 = LRT, df = npar, p_LRT = `Pr(Chi)`) %>%
+  mutate(across(.cols = c(p, p_LRT), ~ format(round(.x, 3), nsmall=3))) %>% 
+  mutate(across(.cols = c(Estimate:z, Chi2), ~ format(round(.x, 2), nsmall=2))) %>% 
+  mutate(p_LRT=replace(p_LRT, p_LRT==0.000, "<0.001"))%>%
+  mutate(p=replace(p, p==0.000, "<0.001"))
+
+write.csv(model_pointing_task, file = "saves/m2_results_pointing_task.csv")
+```
+
+
+
 pointing task based on aggregated data
 ```{r}
 
