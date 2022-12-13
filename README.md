@@ -17,7 +17,8 @@ Data and R scripts for the study entitled: "Unwilling or Unable? Using 3D tracki
 │   ├── data                                      <-- aggregated 3D tracking data of Exp1  
         └── raw                                   <-- raw 3D tracking data of Exp1  
 │   ├── graphics                                  <-- figures based on 3D tracking data of Exp1
-        └── interpolated2                         <-- figures of individual trajectories (based on filtered and interpolated data)  
+        └── interpolated2                         <-- figures of individual trajectories (based on filtered and interpolated data) 
+│   ├── functions                                 <-- Functions (e.g. for tail angle calculation, etc.) kindly provided by Roger Mundry.
 │   └── saves                                     <-- results of GLMMs
 └── Exp2           
     ├── unwilling-unable_analysis_followup_new.rmd<-- R markdown file including analyses of video scoring data of Exp 2  
