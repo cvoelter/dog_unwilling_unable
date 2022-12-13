@@ -521,46 +521,7 @@ away_plot
 ggsave(away_plot , filename = "graphs/unwilling_unable_away_time.png", width = 8, height = 8, scale = 0.4)
 
 ```
-Plotting only clumsy and teasing condition
-```{r}
-walk.away.data.red<-walk.away.data%>%
-  filter(condition!="blocked")
 
-walk.away.data.red$condition2 <- jitter(as.numeric(as.factor(walk.away.data.red$condition), amount = .0001))
-
-library(gghalves)
-library(ggsignif)
-
-
-away_plot.red <- ggplot(data = walk.away.data.red, aes(x = condition, y= mean_prop_away_time)) +
-      geom_line(aes(x = condition2, group = subject), color = "darkgray", lty = 1, alpha = .2) +
-
-  geom_point(data = walk.away.data.red %>% filter(condition == "clumsy"), aes(x = condition2), color = "darkorange", size = 1.5, alpha = .4, ) +
-    geom_point(data = walk.away.data.red %>% filter(condition == "teasing"), aes(x = condition2), color = "darkgreen", size = 1.5, alpha = .4, ) +
-
-     geom_half_boxplot(
-     data = walk.away.data.red %>% filter(condition == "clumsy"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = -0.45), 
-     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
-     fill = 'darkorange', alpha = .5) +
-  
-     geom_half_boxplot(
-     data = walk.away.data.red %>% filter(condition == "teasing"), aes(x = condition2, y = mean_prop_away_time), position = position_nudge(x = .25), 
-     side = "r",outlier.shape = NA, center = TRUE, errorbar.draw = TRUE, width = .05, 
-     fill = 'darkgreen', alpha = .5) +
-    geom_text(x = 1.4, y = 0.8, label = "***") +
-    geom_segment(aes(x=0.9, xend=1.9, y = 0.78, yend=0.78))+
-  # Define additional settings
-  xlab("Condition") +
-  ylab("Proportion time away from Exp.") +
-  scale_x_continuous(breaks = c(1, 1.8), labels = c("Clumsy", "Teasing"), limits = c(0.3,2.5)) +
-  ylim(0, 1) +
-  theme_classic()
-
-away_plot.red 
-
-ggsave(away_plot.red , filename = "graphs/unwilling_unable_away_time_red.png", width = 6, height = 6, scale = 0.5)
-
-```
 
 Look away
 ```{r}
@@ -689,7 +650,7 @@ library(cowplot)
 
 pg<-plot_grid(away_plot, look_away_plot, rest_plot, lat_plot, nrow=2, labels=c("A", "B", "C", "D"))
 
-ggsave(pg, filename = "graphs/unwilling_unable_plot_grid.png", height = 15, width=16, scale=0.46)
+ggsave(pg, filename = "graphs/unwilling_unable_plot_grid.jpg", height = 15, width=16, scale=0.46)
 
 ggsave(pg, filename = "graphs/unwilling_unable_plot_grid.pdf", height = 15, width=16, scale=0.46)
 ```
